@@ -1,3 +1,5 @@
+import { Box, Text, Button } from "@chakra-ui/react";
+
 const Movie = ({ title, genre, addToWatch, link, movieID }) => {
   const addWatchList = () => {
     addToWatch(title, link, movieID);
@@ -5,6 +7,20 @@ const Movie = ({ title, genre, addToWatch, link, movieID }) => {
   };
 
   return (
+    <Box p={4} borderWidth="1px" rounded="md">
+      <a href="#">
+        <img src={link} alt="Card image cap" />
+      </a>
+      <Box mt={2}>
+        <Text fontSize="lg">{title}</Text>
+        <Button colorScheme="blue" onClick={addWatchList}>
+          TO WATCH
+        </Button>
+      </Box>
+    </Box>
+  );
+
+  /*
     <div className="col" style={{ width: 16 + "rem" }}>
       <div className="card card-sm">
         <a href="#">
@@ -18,7 +34,8 @@ const Movie = ({ title, genre, addToWatch, link, movieID }) => {
         </div>
       </div>
     </div>
-  );
+
+  */
   /*
   return (
     <div className="card">
