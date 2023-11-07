@@ -1,21 +1,27 @@
 import { Box, Text, Button } from "@chakra-ui/react";
 
 const Movie = ({ title, genre, addToWatch, link, movieID }) => {
+  console.log("movie re-render");
   const addWatchList = () => {
     addToWatch(title, link, movieID);
     alert(`You added ${title} to your to watch list!`);
   };
 
   return (
-    <Box p={4} borderWidth="1px" rounded="md">
+    <Box borderWidth="1px" rounded="md" boxShadow="xl" p="3">
       <a href="#">
-        <img src={link} alt="Card image cap" />
+        <img
+          src={link}
+          alt="Card image cap"
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
+        />
       </a>
-      <Box mt={2}>
+      <Box mt={2} textAlign="center">
         <Text fontSize="lg">{title}</Text>
-        <Button colorScheme="blue" onClick={addWatchList}>
+        {/*" <Button colorScheme="blue" onClick={addWatchList}>
           TO WATCH
         </Button>
+  "*/}
       </Box>
     </Box>
   );

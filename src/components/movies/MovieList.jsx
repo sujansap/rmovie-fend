@@ -2,8 +2,12 @@ import Movie from "./Movie";
 import MOVIE_DATA from "../../data/mock_data";
 import { useState } from "react";
 import { Box, Container, Text } from "@chakra-ui/react";
+import useSWR from "swr";
+import { getAll } from "../../api";
 
 const MovieList = () => {
+  const { data: MOVIES = [], isLoading, error } = useSWR("movies", getAll);
+
   const [moviesToWatch, addMovieToWatch] = useState([]);
 
   const addToWatchList = (title, link, movieID) => {
@@ -14,23 +18,24 @@ const MovieList = () => {
 
   return (
     <Box>
-      <Container mt={4}>
+      <Box bg="gray.50">
         <Box
+          m={5}
           display={{ base: "block", md: "grid" }}
-          gridTemplateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+          gridTemplateColumns={{ md: "repeat(3, 1fr)", lg: "repeat(5, 10fr)" }}
           gap={4}
         >
-          {MOVIE_DATA.map((movie) => (
+          {MOVIES.map((movie) => (
             <Movie
               title={movie.title}
               genre={movie.genre}
-              link={movie.link}
-              key={movie.movieID}
+              link={movie.poster}
+              key={movie.movieId}
               addToWatch={addToWatchList}
             />
           ))}
         </Box>
-      </Container>
+      </Box>
       <Text fontSize="xl" mt={4}>
         To watch movies
       </Text>
