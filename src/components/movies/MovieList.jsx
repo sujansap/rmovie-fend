@@ -31,7 +31,6 @@ const MovieList = () => {
               genre={movie.genre}
               link={movie.poster}
               key={movie.movieId}
-              addToWatch={addToWatchList}
             />
           ))}
         </Box>

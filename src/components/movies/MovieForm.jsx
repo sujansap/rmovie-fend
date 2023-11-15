@@ -1,5 +1,5 @@
 import { useState, memo, useMemo, useEffect } from "react";
-import { useForm, FormProvider, useFormContext } from "react-hook-form"; // 👈 1
+import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormLabel,
@@ -68,16 +68,20 @@ const InputGenre = ({
   inputValue,
   setInputValue,
 }) => {
-  const { register, errors, setError, genres } = useFormContext();
+  const { register, errors, setError, setValue, getValues, genres } =
+    useFormContext();
 
   const hasError = "genre" in errors;
 
   const handelGenreEnter = (event) => {
-    const genre = inputValue.trim().toLowerCase();
+    console.log("genre: &&&");
+    const rawGenre = getValues("genre");
+
+    const genre = rawGenre.trim().toLowerCase();
+    console.log(`genre ain't doing nothing: ${rawGenre}`);
     if (event.key === "Enter" && genre !== "") {
       // blokeer submit bij enter
       event.preventDefault();
-
       if (genre.length < 2) {
         setError("genre", {
           type: "manual",
@@ -93,8 +97,8 @@ const InputGenre = ({
           //de latest input of the user is a valid one, thus remove the error
           setError("genre", {});
           setSelectedGenres([...selectedGenres, genre]);
+          setValue("genre", "");
           //make the input field empty agian
-          setInputValue("");
         } else {
           setError("genre", {
             type: "manual",
@@ -135,8 +139,6 @@ const InputGenre = ({
         {...register("genre", validationRules.genre)}
         type="text"
         placeholder="Action"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handelGenreEnter}
       />
       {hasError ? <Text color="red">{errors["genre"].message}</Text> : null}
@@ -161,6 +163,7 @@ export default function MovieForm({}) {
     reset,
     handleSubmit,
     setValue,
+    getValues,
     setError,
     formState: { errors },
   } = useForm();
@@ -189,7 +192,6 @@ export default function MovieForm({}) {
       genres: selectedGenres,
     });
 
-    setInputValue("");
     setSelectedGenres([]);
     reset();
   };
@@ -201,6 +203,8 @@ export default function MovieForm({}) {
       register={register}
       setError={setError}
       genres={genres}
+      getValues={getValues}
+      setValue={setValue}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
