@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Text,
-  Spacer,
-  Badge,
-  Container,
-} from "@chakra-ui/react";
+import { Box, Flex, Image, Text, Badge } from "@chakra-ui/react";
 
 export const Review = ({ uid, mid }) => {
   const poster =

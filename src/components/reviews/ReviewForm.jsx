@@ -51,18 +51,8 @@ const RatingSlider = ({ firstValue }) => {
   const [sliderValue, setSliderValue] = useState(firstValue);
   const { register, errors, getValues, setValue } = useFormContext();
 
-  //const { field } = useController({ name: "rating" });
-
   const hasError = "rating" in errors;
-  /*
-  return (
-    <Box>
-      <input {...register("rating", validationRules["rating"])} type="range" />
 
-      {hasError ? <Text color="red">{errors["rating"].message}</Text> : null}
-    </Box>
-  );
-*/
   return (
     <Box>
       <Slider
