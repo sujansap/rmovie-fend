@@ -1,10 +1,10 @@
 import Movie from "./Movie";
-import MOVIE_DATA from "../../data/mock_data";
+
 import { useState } from "react";
 import { Box, Container, Text } from "@chakra-ui/react";
 import useSWR from "swr";
 import { getAll } from "../../api";
-
+import AsyncData from "../../components/AsyncData";
 const MovieList = () => {
   const { data: MOVIES = [], isLoading, error } = useSWR("movies", getAll);
 
@@ -25,14 +25,16 @@ const MovieList = () => {
           gridTemplateColumns={{ md: "repeat(3, 1fr)", lg: "repeat(5, 10fr)" }}
           gap={4}
         >
-          {MOVIES.map((movie) => (
-            <Movie
-              title={movie.title}
-              genre={movie.genre}
-              link={movie.poster}
-              key={movie.movieId}
-            />
-          ))}
+          <AsyncData loading={isLoading} error={error}>
+            {MOVIES.map((movie) => (
+              <Movie
+                title={movie.title}
+                genre={movie.genre}
+                link={movie.poster}
+                key={movie.movieId}
+              />
+            ))}
+          </AsyncData>
         </Box>
       </Box>
       <Text fontSize="xl" mt={4}>
