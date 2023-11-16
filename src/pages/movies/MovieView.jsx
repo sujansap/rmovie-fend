@@ -4,10 +4,6 @@ import { Box } from "@chakra-ui/react";
 
 const MovieView = () => {
   //add in main.jsx router and ...
-  return (
-    <Box>
-      <MovieList />
-    </Box>
-  );
+  return <MovieList />;
 };
 export default MovieView;

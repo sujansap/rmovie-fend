@@ -13,6 +13,7 @@ import {
   Button,
   Textarea,
   Text,
+  Container,
 } from "@chakra-ui/react";
 
 import useSWRMutation from "swr/mutation";
@@ -207,7 +208,7 @@ export default function MovieForm({}) {
       setValue={setValue}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
+        <Container
           margin={5}
           maxWidth="70%"
           bg="gray.50"
@@ -259,7 +260,7 @@ export default function MovieForm({}) {
           >
             Add
           </Button>
-        </Box>
+        </Container>
       </form>
     </FormProvider>
   );

@@ -11,14 +11,14 @@ import MovieView from "./pages/movies/MovieView";
 function App() {
   return (
     <ChakraProvider>
-      <div>
+      <Box>
         <h2>Browse movies</h2>
         <MovieView />
         <Box margin={3}>Add a movie</Box>
         <MovieForm />
         <Review />
         <ReviewForm />
-      </div>
+      </Box>
     </ChakraProvider>
   );
 }
