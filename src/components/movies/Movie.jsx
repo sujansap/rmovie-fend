@@ -1,4 +1,5 @@
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Box, Text, Button, Link as CLink } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const Movie = ({ title, genre, addToWatch, link, movieID }) => {
   console.log("movie re-render");
@@ -9,13 +10,13 @@ const Movie = ({ title, genre, addToWatch, link, movieID }) => {
 
   return (
     <Box borderWidth="1px" rounded="md" boxShadow="xl" p="3">
-      <a href="#">
+      <Link to={`/movies/${movieID}`}>
         <img
           src={link}
           alt="Card image cap"
           style={{ maxWidth: "100%", maxHeight: "100%" }}
         />
-      </a>
+      </Link>
       <Box mt={2} textAlign="center">
         <Text fontSize="lg">{title}</Text>
         {/*" <Button colorScheme="blue" onClick={addWatchList}>

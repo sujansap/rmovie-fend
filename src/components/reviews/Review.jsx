@@ -1,9 +1,19 @@
-import { Box, Flex, Image, Text, Badge } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  Badge,
+  Slider,
+  SliderFilledTrack,
+  SliderTrack,
+  Button,
+} from "@chakra-ui/react";
 
 export const Review = ({ uid, mid }) => {
   const poster =
     "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTE9gJuijgZksjdoMTae9lCweLhzMJy0fDwko0sFImtPmidgNjq";
-  const rating = 5;
+  const rating = "30%";
   const review =
     "Coma is one of the most gorgeous movies ever made,and this is coming from someone who finds CGI-studded Hollywood sci-fi action movies hard to resist. The film has some of the most picturesque visuals I've personally ever seen. I'm glad I rented this, and although the Hindi dub was pretty average, the story itself was so immersive that one thing didn't bother me after a point of time. Performance wise, this film has some great work done by the actors due to which the characters end up memorable. While the real story remains shrouded in mystery during the first half, the second reveals a fantastic twist without getting derailed. Plus, it's action-packed to the brim, and from the very beginning itself. Again, the visual effects make this film what it truly is and I hardly remember a single shot where I didn't exclaim 'wow'. One could easily mistake this as a mere CGI spectacle, but the whole universe and conceptualization of Coma are the reasons that doesn't happen. Not in my case at least. If you enjoy sci-fi action films, Coma deserves a chance as well. Something tells me I might want to collect and watch the film once again in the future, albeit in the original language now.Coma is one of the most gorgeous movies ever made,and this is coming from someone who finds CGI-studded Hollywood sci-fi action movies hard to resist. The film has some of the most picturesque visuals I've personally ever seen. I'm glad I rented this, and although the Hindi dub was pretty average, the story itself was so immersive that one thing didn't bother me after a point of time. Performance wise, this film has some great work done by the actors due to which the characters end up memorable. While the real story remains shrouded in mystery during the first half, the second reveals a fantastic twist without getting derailed. Plus, it's action-packed to the brim, and from the very beginning itself. Again, the visual effects make this film what it truly is and I hardly remember a single shot where I didn't exclaim 'wow'. One could easily mistake this as a mere CGI spectacle, but the whole universe and conceptualization of Coma are the reasons that doesn't happen. Not in my case at least. If you enjoy sci-fi action films, Coma deserves a chance as well. Something tells me I might want to collect and watch the film once again in the future, albeit in the original language now.";
   //const review =
@@ -16,16 +26,28 @@ export const Review = ({ uid, mid }) => {
       rounded="md"
       padding={4}
       margin={5}
-      bg="gray.50"
+      //bg="gray.50"
+      color="white"
+      bg="black"
     >
       <Box padding={4} m={3} rounded="md" boxShadow="xl" p="2">
         <Image src={poster} alt="Movie Poster" />
         <Text>
           Rating:
-          <Badge colorScheme="blue" ml={2}>
-            {rating}
-          </Badge>
+          <Badge ml={2}>{rating}</Badge>{" "}
         </Text>
+        <Slider
+          aria-label="slider-ex-1"
+          defaultValue={30}
+          isDisabled
+          width="100%"
+          height={10}
+        >
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+        </Slider>
+        <Button>Review</Button>
       </Box>
 
       <Flex
@@ -35,6 +57,8 @@ export const Review = ({ uid, mid }) => {
         borderWidth="1px"
         rounded="md"
         boxShadow="xl"
+        bg="black"
+        color="white"
       >
         <Text
           fontSize={{ base: "md", md: "md" }}

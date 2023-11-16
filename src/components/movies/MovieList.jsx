@@ -18,7 +18,7 @@ const MovieList = () => {
 
   return (
     <Box>
-      <Box bg="gray.50">
+      <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
         <Box
           m={5}
           display={{ base: "block", md: "grid" }}
@@ -31,6 +31,7 @@ const MovieList = () => {
                 title={movie.title}
                 genre={movie.genre}
                 link={movie.poster}
+                movieID={movie.movieId}
                 key={movie.movieId}
               />
             ))}

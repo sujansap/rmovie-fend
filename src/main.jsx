@@ -30,6 +30,10 @@ const router = createBrowserRouter([
             element: <MovieView />,
           },
           {
+            path: ":id",
+            element: <Review />,
+          },
+          {
             path: "add",
             element: <AddMovie />,
           },
