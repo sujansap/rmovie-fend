@@ -18,7 +18,7 @@ export default function Navbar() {
       </Box>
 
       <Box p="2">
-        <Link to="/movies/1">Movies</Link>
+        <Link to="/movies">Movies</Link>
       </Box>
       <Box p="2">
         <Link to="/movies/add">Add Movie</Link>

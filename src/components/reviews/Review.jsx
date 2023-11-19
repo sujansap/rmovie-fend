@@ -8,6 +8,7 @@ import {
   SliderFilledTrack,
   SliderTrack,
   Button,
+  Heading,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 //movies/:id/reviews/:id
@@ -21,6 +22,8 @@ export const Review = ({ uid, mid }) => {
   //const review =
   //"This is such a great movie, i think everyone should watch it!";
   const { id } = useParams();
+
+  const genres = [];
   console.log(id);
   return (
     <Box
@@ -36,10 +39,20 @@ export const Review = ({ uid, mid }) => {
     >
       <Box padding={4} m={3} rounded="md" boxShadow="xl" p="2">
         <Image src={poster} alt="Movie Poster" />
+
+        <Box>
+          {genres.length === 0 ? "" : "Genres"}
+          {genres.map((genre) => (
+            <Badge key={genre} ml={2} colorScheme="blue" variant="solid">
+              {genre}
+            </Badge>
+          ))}
+        </Box>
         <Text>
           Rating:
-          <Badge ml={2}>{rating}</Badge>{" "}
+          <Badge ml={2}>{rating}</Badge>
         </Text>
+
         <Slider
           aria-label="slider-ex-1"
           defaultValue={30}

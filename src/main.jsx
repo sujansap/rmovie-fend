@@ -14,8 +14,9 @@ import AddOrEditMovie from "./pages/movies/AddMovie.jsx";
 import AddMovie from "./pages/movies/AddMovie.jsx";
 import { Review } from "./components/reviews/Review.jsx";
 
-import ReviewList from "./pages/movies/reviews/ReviewList.jsx";
 import Layout from "./components/Layout.jsx";
+import Movieinfo from "./pages/movies/reviews/Movieinfo.jsx";
+import Reviewinfo from "./pages/movies/reviews/Reviewinfo.jsx";
 //maak zo dat movie alleen toegevoegd kan worden, maar niet aangepast
 // een review kan toegevoegd en aangepast worden
 const router = createBrowserRouter([
@@ -35,11 +36,11 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <ReviewList />,
+            element: <Movieinfo />,
           },
           {
-            path: ":id/reviews",
-            element: <ReviewList />,
+            path: ":id/review",
+            element: <Reviewinfo />,
           },
           {
             path: "add",

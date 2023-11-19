@@ -7,10 +7,10 @@ const Movie = ({ title, genre, addToWatch, link, movieID }) => {
     addToWatch(title, link, movieID);
     alert(`You added ${title} to your to watch list!`);
   };
-
+  const previousPage = "comeFromMovie";
   return (
     <Box borderWidth="1px" rounded="md" boxShadow="xl" p="3">
-      <Link to={`/movies/${movieID}`}>
+      <Link to={{ pathname: `/movies/${movieID}`, state: { previousPage } }}>
         <img
           src={link}
           alt="Card image cap"
