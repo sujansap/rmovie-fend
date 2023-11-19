@@ -135,7 +135,7 @@ export const ReviewForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           margin={5}
-          maxWidth="70%"
+          //maxWidth="70%"
           bg="gray.50"
           padding={5}
           rounded="md"
