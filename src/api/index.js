@@ -7,6 +7,8 @@ export async function getAll(url) { // 👈 2
     data,
   } = await axios.get(`${baseUrl}/${url}`); // 👈 3
 
+  
+
   return data.items;
 }
 

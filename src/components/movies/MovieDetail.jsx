@@ -10,7 +10,7 @@ const MovieDetail = () => {
   const getFrom = `movies/${id}`;
   console.log("get from is " + getFrom);
   const { data: MOVIE = [], isLoading, error } = useSWR(getFrom, getAll);
-
+  console.log("movie detail: " + MOVIE.title);
   return (
     <Detail
       title={MOVIE.title}

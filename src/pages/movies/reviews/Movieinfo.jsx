@@ -13,14 +13,6 @@ const Movieinfo = () => {
   const { id } = useParams();
   console.log(id);
 
-  const { previousPath } = useLocation();
-
-  console.log("the previous page: " + previousPath);
-  //const getFrom = `movies/${id}/reviews`;
-  //console.log(getFrom);
-  //const { data: MOVIES = [], isLoading, error } = useSWR(getFrom, getAll);
-
-  //console.log(MOVIES);
   return (
     <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
       <SmallNavBar id={id} activeMovie={true} />

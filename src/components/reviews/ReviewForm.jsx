@@ -93,7 +93,7 @@ const RatingSlider = ({ firstValue }) => {
   );
 };
 
-export const ReviewForm = () => {
+export const ReviewForm = ({ uid, mid }) => {
   console.log("rerender movie form");
 
   const {

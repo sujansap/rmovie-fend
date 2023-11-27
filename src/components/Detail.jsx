@@ -9,16 +9,8 @@ import {
   SliderTrack,
   Heading,
 } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
 
-//movies/:id/reviews/:id
-//
 export const Detail = ({ title, poster, genres, rating, text }) => {
-  //"This is such a great movie, i think everyone should watch it!";
-  const location = useLocation();
-  const previousPage = location.state?.previousPage;
-
-  console.log("previous page: " + previousPage);
   return (
     <Box
       display={{ base: "block", md: "grid" }}
@@ -27,9 +19,8 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
       rounded="md"
       padding={4}
       margin={5}
-      //bg="gray.50"
-      color="white"
-      bg="black"
+      color="black"
+      bg="white"
     >
       <Box padding={4} m={3} rounded="md" boxShadow="xl" p="2">
         <Image src={poster} alt="Movie Poster" />
@@ -42,10 +33,8 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
             </Badge>
           ))}
         </Box>
-        <Text>
-          Rating:
-          <Badge ml={2}>{rating}</Badge>{" "}
-        </Text>
+        Rating:
+        <Badge ml={2}>{rating}</Badge>{" "}
         <Slider aria-label="slider-ex-1" value={rating} isDisabled width="100%">
           <SliderTrack>
             <SliderFilledTrack />
@@ -60,8 +49,8 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
         borderWidth="1px"
         rounded="md"
         boxShadow="xl"
-        bg="black"
-        color="white"
+        bg="white"
+        color="black"
       >
         <Text
           fontSize={{ base: "md", md: "md" }}
