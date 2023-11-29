@@ -21,6 +21,10 @@ import { save } from "../../api";
 import Error from "../Error";
 import useSWR from "swr";
 import { getAll } from "../../api";
+import LabelInput from "./LabelInput";
+import { useContext } from "react";
+import { useCallback } from "react";
+import LabelTextarea from "./LabelTextarea";
 
 const validationRules = {
   title: {
@@ -43,25 +47,6 @@ const validationRules = {
   },
 };
 
-//for poster url link and movie title
-function LabelInput({ label, name, type, validationRules }) {
-  const { register, errors } = useFormContext(); // 👈 2
-  const hasError = name in errors;
-
-  return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
-      <Input
-        {...register(name, validationRules)}
-        id={name}
-        type={type}
-        placeholder={label}
-      />
-      {hasError ? <Text color="red">{errors[name].message}</Text> : null}
-    </FormControl>
-  );
-}
-
 //For genre
 const InputGenre = ({
   selectedGenres,
@@ -75,10 +60,10 @@ const InputGenre = ({
   const hasError = "genre" in errors;
 
   const handelGenreEnter = (event) => {
-    console.log("genre: &&&");
     const rawGenre = getValues("genre");
-
+    console.log("genre: &&&" + rawGenre);
     const genre = rawGenre.trim().toLowerCase();
+
     console.log(`genre ain't doing nothing: ${rawGenre}`);
     if (event.key === "Enter" && genre !== "") {
       // blokeer submit bij enter
@@ -110,13 +95,22 @@ const InputGenre = ({
     }
   };
 
-  const removeGenre = (genre) => {
-    setSelectedGenres(selectedGenres.filter((g) => g !== genre));
-  };
+  const removeGenre = useCallback(
+    (genre) => {
+      setSelectedGenres(selectedGenres.filter((g) => g !== genre));
+    },
+    [selectedGenres]
+  );
 
   return (
     <FormControl>
-      <FormLabel>Genres</FormLabel>
+      <LabelInput
+        label="Genres"
+        name="genre"
+        type="text"
+        validationRules={validationRules.genre}
+        onKeyDown={handelGenreEnter}
+      ></LabelInput>
       <Stack direction="row" flexWrap="wrap">
         {selectedGenres.map((genre) => (
           <Tag
@@ -136,13 +130,6 @@ const InputGenre = ({
       <FormHelperText marginBottom="2">
         You can add multiple. Just type and press enter.
       </FormHelperText>
-      <Input
-        {...register("genre", validationRules.genre)}
-        type="text"
-        placeholder="Action"
-        onKeyDown={handelGenreEnter}
-      />
-      {hasError ? <Text color="red">{errors["genre"].message}</Text> : null}
     </FormControl>
   );
 };
@@ -150,6 +137,7 @@ export default function MovieForm({}) {
   const { data: GENRES_DATA = [], isLoading, error } = useSWR("genres", getAll);
   console.log("test");
   console.log(GENRES_DATA);
+
   //const genres = ["Action", "Comedy"];
 
   const genres = GENRES_DATA.map((item) => item.genre);
@@ -169,8 +157,6 @@ export default function MovieForm({}) {
     formState: { errors },
   } = useForm();
 
-  // we will keep it at one higher level than where we need it, because
-  // we need to access the genres when the enter button is clicked
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [genreValue, setGenreValue] = useState("");
@@ -223,18 +209,12 @@ export default function MovieForm({}) {
             validationRules={validationRules.title}
           />
 
-          <Box marginTop={5} marginBottom={5}>
-            <FormControl>
-              <FormLabel>Synopsis</FormLabel>
-              <Textarea
-                {...register("synopsis", validationRules["synopsis"])}
-                placeholder="The movie is about a..."
-              ></Textarea>
-              {hasError ? (
-                <Text color="red">{errors["synopsis"].message}</Text>
-              ) : null}
-            </FormControl>
-          </Box>
+          <LabelTextarea
+            name="synopsis"
+            placeholder="The movie is about a..."
+            label="synopsis"
+            validationRules={validationRules.synopsis}
+          />
 
           <InputGenre
             selectedGenres={selectedGenres}

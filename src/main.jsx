@@ -9,6 +9,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import { AuthProvider } from "./contexts/Auth.context.jsx";
+
 import MovieView from "./pages/movies/MovieView.jsx";
 import AddOrEditMovie from "./pages/movies/AddMovie.jsx";
 import AddMovie from "./pages/movies/AddMovie.jsx";
@@ -19,6 +21,9 @@ import Movieinfo from "./pages/movies/reviews/Movieinfo.jsx";
 import Reviewinfo from "./pages/movies/reviews/Reviewinfo.jsx";
 //maak zo dat movie alleen toegevoegd kan worden, maar niet aangepast
 // een review kan toegevoegd en aangepast worden
+
+//via post man
+//bearer token
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -43,6 +48,10 @@ const router = createBrowserRouter([
             element: <Reviewinfo />,
           },
           {
+            path: ":id/review/edit",
+            element: <Reviewinfo />,
+          },
+          {
             path: "add",
             element: <AddMovie />,
           },
@@ -60,20 +69,6 @@ const router = createBrowserRouter([
             index: true,
             element: <Review />,
           },
-          /*{
-            path: "add",
-            element: <AddMovie />,
-          },
-
-          {
-            path: "edit/:id",
-            element: <AddMovie />,
-          },
-
-          {
-            path: "review",
-            element: <Review />,
-          },*/
         ],
       },
       /*{
@@ -95,8 +90,10 @@ const router = createBrowserRouter([
 //
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <AuthProvider>
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useForm,
   FormProvider,
@@ -25,6 +25,8 @@ import { save } from "../../api";
 import Error from "../Error";
 import useSWR from "swr";
 import { getAll } from "../../api";
+import LabelTextarea from "../movies/LabelTextarea";
+import { useParams } from "react-router-dom";
 
 const validationRules = {
   reviewText: {
@@ -93,7 +95,8 @@ const RatingSlider = ({ firstValue }) => {
   );
 };
 
-export const ReviewForm = ({ uid, mid }) => {
+export const ReviewForm = ({ uid, mid, rdata }) => {
+  const { id } = useParams();
   console.log("rerender movie form");
 
   const {
@@ -107,7 +110,7 @@ export const ReviewForm = ({ uid, mid }) => {
   } = useForm();
 
   const { trigger: saveReview, error: saveError } = useSWRMutation(
-    "movies/10/reviews",
+    `movies/${id}/reviews`,
     save
   );
 
@@ -124,7 +127,14 @@ export const ReviewForm = ({ uid, mid }) => {
 
     reset();
   };
-  const hasError = "reviewText" in errors;
+
+  useEffect(() => {
+    if (rdata) {
+      setValue("reviewText", rdata.reviewText);
+      setValue("rating", rdata.rating);
+    }
+  });
+
   return (
     <FormProvider
       register={register}
@@ -144,18 +154,13 @@ export const ReviewForm = ({ uid, mid }) => {
           <Text fontSize="xl" fontWeight="bold">
             Review
           </Text>
-          <FormControl marginBottom={3}>
-            <FormLabel>Review</FormLabel>
 
-            <Textarea
-              {...register("reviewText", validationRules["reviewText"])}
-              placeholder="Write your review here..."
-              //name="reviewText"
-            />
-            {hasError ? (
-              <Text color="red">{errors["reviewText"].message}</Text>
-            ) : null}
-          </FormControl>
+          <LabelTextarea
+            placeholder="Write your review here"
+            name="reviewText"
+            label="Review Text"
+          />
+
           <FormControl>
             <FormLabel>Rating</FormLabel>
             <RatingSlider firstValue="68" />

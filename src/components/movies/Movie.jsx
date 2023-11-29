@@ -1,4 +1,4 @@
-import { Box, Text, Button, Link as CLink } from "@chakra-ui/react";
+import { Box, Text, Button, Link as CLink, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const Movie = ({ title, genre, addToWatch, link, movieID }) => {
@@ -11,7 +11,7 @@ const Movie = ({ title, genre, addToWatch, link, movieID }) => {
   return (
     <Box borderWidth="1px" rounded="md" boxShadow="xl" p="3">
       <Link to={{ pathname: `/movies/${movieID}`, state: { previousPage } }}>
-        <img
+        <Image
           src={link}
           alt="Card image cap"
           style={{ maxWidth: "100%", maxHeight: "100%" }}
