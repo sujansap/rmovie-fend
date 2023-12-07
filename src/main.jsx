@@ -19,6 +19,14 @@ import { Review } from "./components/reviews/Review.jsx";
 import Layout from "./components/Layout.jsx";
 import Movieinfo from "./pages/movies/reviews/Movieinfo.jsx";
 import Reviewinfo from "./pages/movies/reviews/Reviewinfo.jsx";
+import ReviewEdit from "./pages/movies/reviews/ReviewEdit.jsx";
+import Login from "./pages/Login.jsx";
+
+import PrivateRoute from "./components/PrivateRoute";
+import Logout from "./pages/Logout.jsx";
+import ReviewList from "./components/reviews/ReviewList.jsx";
+import Register from "./pages/register.jsx";
+
 //maak zo dat movie alleen toegevoegd kan worden, maar niet aangepast
 // een review kan toegevoegd en aangepast worden
 
@@ -34,6 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/movies",
+        element: <PrivateRoute />,
         children: [
           {
             index: true,
@@ -49,7 +58,7 @@ const router = createBrowserRouter([
           },
           {
             path: ":id/review/edit",
-            element: <Reviewinfo />,
+            element: <ReviewEdit />,
           },
           {
             path: "add",
@@ -64,13 +73,29 @@ const router = createBrowserRouter([
       },
       {
         path: "/reviews",
+        element: <PrivateRoute />,
         children: [
           {
             index: true,
-            element: <Review />,
+            element: <ReviewList />,
           },
         ],
       },
+      {
+        path: "/login",
+
+        element: <Login />,
+      },
+      {
+        path: "/register",
+
+        element: <Register />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+
       /*{
         path: "/places",
         children: [

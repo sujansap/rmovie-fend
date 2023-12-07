@@ -54,11 +54,15 @@ const InputGenre = ({
   inputValue,
   setInputValue,
 }) => {
-  const { register, errors, setError, setValue, getValues, genres } =
-    useFormContext();
+  const {
+    setError,
+    setValue,
+    getValues,
+    genres,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
 
-  const hasError = "genre" in errors;
-
+  console.log(genres);
   const handelGenreEnter = (event) => {
     const rawGenre = getValues("genre");
     console.log("genre: &&&" + rawGenre);
@@ -147,6 +151,7 @@ export default function MovieForm({}) {
     save
   );
 
+  const methods = useForm();
   const {
     register,
     reset,
@@ -155,7 +160,7 @@ export default function MovieForm({}) {
     getValues,
     setError,
     formState: { errors },
-  } = useForm();
+  } = methods;
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -165,7 +170,7 @@ export default function MovieForm({}) {
     setValue("genre", genres);
   };
 
-  const hasError = "synopsis" in errors;
+  //const hasError = "synopsis" in errors;
 
   console.log("rendering movie form...");
   const onSubmit = async (data) => {
@@ -184,15 +189,7 @@ export default function MovieForm({}) {
   };
 
   return (
-    <FormProvider
-      handleSubmit={handleSubmit}
-      errors={errors}
-      register={register}
-      setError={setError}
-      genres={genres}
-      getValues={getValues}
-      setValue={setValue}
-    >
+    <FormProvider {...methods} genres={genres}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container
           margin={5}

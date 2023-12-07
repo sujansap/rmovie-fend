@@ -7,7 +7,10 @@ export default function LabelTextarea({
   placeholder,
   validationRules,
 }) {
-  const { register, errors } = useFormContext();
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
 
   const hasError = name in errors;
   return (

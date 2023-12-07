@@ -7,26 +7,32 @@ const Movie = ({ title, genre, addToWatch, link, movieID }) => {
     addToWatch(title, link, movieID);
     alert(`You added ${title} to your to watch list!`);
   };
-  const previousPage = "comeFromMovie";
+
   return (
     <Box borderWidth="1px" rounded="md" boxShadow="xl" p="3">
-      <Link to={{ pathname: `/movies/${movieID}`, state: { previousPage } }}>
-        <Image
-          src={link}
-          alt="Card image cap"
-          style={{ maxWidth: "100%", maxHeight: "100%" }}
-        />
-      </Link>
-      <Box mt={2} textAlign="center">
-        <Text fontSize="lg">{title}</Text>
-        {/*" <Button colorScheme="blue" onClick={addWatchList}>
-          TO WATCH
-        </Button>
-  "*/}
+      <Box>
+        <Box style={{ objectFit: "cover", width: "100%", height: "100%" }}>
+          <Link to={`/movies/${movieID}`}>
+            <Image
+              src={link}
+              alt="Card image cap"
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
+              // style={{ maxWidth: "100%", maxHeight: "100%" }}
+            />
+          </Link>
+          <Box mt={2} textAlign="center">
+            <Text fontSize="lg">{title}</Text>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
-
+  {
+    /*" <Button colorScheme="blue" onClick={addWatchList}>
+          TO WATCH
+        </Button>
+  "*/
+  }
   /*
     <div className="col" style={{ width: 16 + "rem" }}>
       <div className="card card-sm">

@@ -20,17 +20,34 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem(JWT_TOKEN_KEY));
   const [user, setUser] = useState(null);
-
+  const [ready, setReady] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
   //als alles gerenderd is wordt useEffect() uitgevoerd
   useEffect(() => {
     api.setAuthToken(token);
+    setIsAuthed(Boolean(token));
+    setReady(true);
   }, [token]);
 
   const {
-    isMutating: loading,
-    error,
+    isMutating: loginLoading,
+    error: loginError,
     trigger: doLogin,
   } = useSWRMutation("users/login", api.post);
+
+  const {
+    isMutating: registerLoading,
+    error: registerError,
+    trigger: doRegister,
+  } = useSWRMutation("users/register", api.post);
+
+  const setSession = useCallback((token, user) => {
+    setToken(token);
+    setUser(user);
+
+    localStorage.setItem(JWT_TOKEN_KEY, token);
+    localStorage.setItem(USER_ID_KEY, user.id);
+  }, []);
 
   const login = useCallback(
     async (email, password) => {
@@ -40,11 +57,7 @@ export const AuthProvider = ({ children }) => {
           password,
         });
 
-        setToken(token);
-        setUser(user);
-
-        localStorage.setItem(JWT_TOKEN_KEY, token);
-        localStorage.setItem(USER_ID_KEY, user.id);
+        setSession(token, user);
 
         return true;
       } catch (error) {
@@ -52,7 +65,21 @@ export const AuthProvider = ({ children }) => {
         return false;
       }
     },
-    [doLogin]
+    [doLogin, setSession]
+  );
+
+  const register = useCallback(
+    async (data) => {
+      try {
+        const { token, user } = await doRegister(data);
+        setSession(token, user);
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    },
+    [doRegister, setSession]
   );
 
   const logout = useCallback(() => {
@@ -67,12 +94,27 @@ export const AuthProvider = ({ children }) => {
     () => ({
       token,
       user,
-      error,
-      loading,
+      error: loginError || registerError,
+      ready,
+      loading: loginLoading || registerLoading,
+      isAuthed,
       login,
       logout,
+      register,
     }),
-    [token, user, error, loading, login, logout]
+    [
+      token,
+      user,
+      loginError,
+      registerError,
+      ready,
+      loginLoading,
+      registerLoading,
+      isAuthed,
+      login,
+      logout,
+      register,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

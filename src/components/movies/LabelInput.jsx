@@ -5,12 +5,18 @@ export default function LabelInput({
   name,
   type,
   validationRules,
+  placeholder,
   ...rest
 }) {
-  const { register, errors } = useFormContext();
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
 
   const hasError = name in errors;
-
+  if (!placeholder) {
+    placeholder = name;
+  }
   return (
     <FormControl>
       <FormLabel>{label}</FormLabel>
@@ -18,7 +24,8 @@ export default function LabelInput({
         {...register(name, validationRules)}
         id={name}
         type={type}
-        placeholder={label}
+        disabled={isSubmitting}
+        placeholder={placeholder}
         {...rest}
       />
       {hasError ? <Text color="red">{errors[name].message}</Text> : null}

@@ -26,7 +26,7 @@ import Error from "../Error";
 import useSWR from "swr";
 import { getAll } from "../../api";
 import LabelTextarea from "../movies/LabelTextarea";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const validationRules = {
   reviewText: {
@@ -48,10 +48,16 @@ const calculateColor = (value) => {
 };
 
 const RatingSlider = ({ firstValue }) => {
-  console.log("rerender silder");
+  console.log("the value that the slider comp gets is: " + firstValue);
   const [showTooltip, setShowTooltip] = useState(false);
   const [sliderValue, setSliderValue] = useState(firstValue);
-  const { register, errors, getValues, setValue } = useFormContext();
+  //const { register, errors, getValues, setValue } = useFormContext();
+  const {
+    getValues,
+    setValue,
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
 
   const hasError = "rating" in errors;
 
@@ -70,8 +76,6 @@ const RatingSlider = ({ firstValue }) => {
           setValue("rating", v);
           setSliderValue(v);
         }}
-        //onMouseEnter={() => setShowTooltip(true)}
-        //onMouseLeave={() => setShowTooltip(false)}
       >
         <SliderTrack>
           <SliderFilledTrack bg={calculateColor(sliderValue)} />
@@ -95,10 +99,10 @@ const RatingSlider = ({ firstValue }) => {
   );
 };
 
-export const ReviewForm = ({ uid, mid, rdata }) => {
-  const { id } = useParams();
+export const ReviewForm = ({ uid, mid, rid, reviewText, rating }) => {
   console.log("rerender movie form");
-
+  const navigate = useNavigate();
+  const methods = useForm();
   const {
     register,
     reset,
@@ -107,10 +111,10 @@ export const ReviewForm = ({ uid, mid, rdata }) => {
     getValues,
     setError,
     formState: { errors },
-  } = useForm();
+  } = methods;
 
   const { trigger: saveReview, error: saveError } = useSWRMutation(
-    `movies/${id}/reviews`,
+    `reviews/`,
     save
   );
 
@@ -121,27 +125,32 @@ export const ReviewForm = ({ uid, mid, rdata }) => {
     const { reviewText: review, rating } = data;
     console.log(data);
     await saveReview({
+      id: rid ? rid : null,
+      movieId: mid,
       review,
       rating,
     });
 
     reset();
+    navigate(`/movies/${mid}/review`);
   };
 
+  //const [firstValue, setFirstValue] = useState(rdata.rating);
+
   useEffect(() => {
-    if (rdata) {
-      setValue("reviewText", rdata.reviewText);
-      setValue("rating", rdata.rating);
+    if (reviewText) {
+      console.log("the movie already has a review show that" + reviewText);
+      setValue("reviewText", reviewText);
+      setValue("rating", rating);
+
+      //console.log("change firstValue " + rdata.rating);
+      // setFirstValue(rdata.rating);
     }
   });
 
+  console.log("the first value after change is: ");
   return (
-    <FormProvider
-      register={register}
-      errors={errors}
-      getValues={getValues}
-      setValue={setValue}
-    >
+    <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           margin={5}
@@ -163,7 +172,7 @@ export const ReviewForm = ({ uid, mid, rdata }) => {
 
           <FormControl>
             <FormLabel>Rating</FormLabel>
-            <RatingSlider firstValue="68" />
+            <RatingSlider firstValue={rating} />
           </FormControl>
           <Button
             type="submit"
