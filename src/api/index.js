@@ -36,6 +36,10 @@ export const save = async (url, { arg: body }) => {
   });
 };
 
+export const deleteById = async (url, { arg: id }) => {
+  await axios.delete(`${baseUrl}/${url}/${id}`);
+};
+
 export const post = async (url, { arg }) => {
   const { data } = await axios.post(`/${url}`, arg);
 

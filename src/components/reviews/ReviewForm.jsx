@@ -51,6 +51,7 @@ const RatingSlider = ({ firstValue }) => {
   console.log("the value that the slider comp gets is: " + firstValue);
   const [showTooltip, setShowTooltip] = useState(false);
   const [sliderValue, setSliderValue] = useState(firstValue);
+
   //const { register, errors, getValues, setValue } = useFormContext();
   const {
     getValues,
@@ -99,7 +100,14 @@ const RatingSlider = ({ firstValue }) => {
   );
 };
 
-export const ReviewForm = ({ uid, mid, rid, reviewText, rating }) => {
+export const ReviewForm = ({
+  uid,
+  mid,
+  rid,
+  reviewText,
+  rating,
+  setForceRender,
+}) => {
   console.log("rerender movie form");
   const navigate = useNavigate();
   const methods = useForm();
@@ -130,9 +138,13 @@ export const ReviewForm = ({ uid, mid, rid, reviewText, rating }) => {
       review,
       rating,
     });
-
-    reset();
-    navigate(`/movies/${mid}/review`);
+    if (setForceRender) {
+      reset();
+      setForceRender(true);
+    } else {
+      reset();
+      navigate(`/movies/${mid}/review`);
+    }
   };
 
   //const [firstValue, setFirstValue] = useState(rdata.rating);
@@ -178,7 +190,7 @@ export const ReviewForm = ({ uid, mid, rid, reviewText, rating }) => {
             type="submit"
             colorScheme="blue"
             marginTop={5}
-            //onClick={() => setValue("rating", sliderValue)}
+            //onClick={() => (setForceRender ? setForceRender(true) : null)}
           >
             Post
           </Button>

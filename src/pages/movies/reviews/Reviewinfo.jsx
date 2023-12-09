@@ -1,23 +1,19 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box } from "@chakra-ui/react";
-
-import useSWR from "swr";
-import { getAll } from "../../../api";
-import AsyncData from "../../../components/AsyncData";
+import { Box } from "@chakra-ui/react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Review } from "../../../components/reviews/Review";
-import { ReviewForm } from "../../../components/reviews/ReviewForm";
-import MovieDetail from "../../../components/movies/MovieDetail";
 
 import SmallNavBar from "../../../components/SmallNavBar";
 import ReviewDetail from "../../../components/reviews/ReviewDetail";
+
+//rename this to Reviewpage
 const Reviewinfo = () => {
   const { id } = useParams();
-
+  const [forceRender, setForceRender] = useState(false);
   return (
     <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
       <SmallNavBar id={id} activeReview={true} />
       <Box>
-        <ReviewDetail mid={id} />
+        <ReviewDetail mid={id} setForceRender={setForceRender} />
       </Box>
     </Box>
   );
