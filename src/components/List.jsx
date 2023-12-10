@@ -1,7 +1,14 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import Movie from "./movies/Movie";
 
 const List = ({ MOVIES }) => {
+  if (MOVIES.length === 0) {
+    return (
+      <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
+        <Text>there are no movies yet</Text>
+      </Box>
+    );
+  }
   return (
     <Box>
       <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
