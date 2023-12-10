@@ -1,8 +1,8 @@
 import { Detail } from "../Detail";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
-import { Link, useParams } from "react-router-dom";
-import useSWR from "swr";
+import { Link, useNavigate, useNavigation, useParams } from "react-router-dom";
+import useSWR, { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 import { getAll, deleteById } from "../../api";
 import { ReviewForm } from "./ReviewForm";
@@ -12,10 +12,18 @@ import AsyncData from "../AsyncData";
 
 const ReviewDetail = ({ setForceRender }) => {
   console.log("RRRENDER REVIEWDETAIL");
-  const { id } = useParams();
+  // const { id } = useParams();
 
+  const navigate = useNavigate();
+
+  const { id } = useParams();
   const getFrom = `movies/${id}/review`;
-  const { data: REVIEW = [], isLoading, error } = useSWR(getFrom, getAll);
+  const {
+    data: REVIEW = [],
+    isLoading,
+    error,
+    mutate,
+  } = useSWR(getFrom, getAll);
 
   const { trigger: deleteMovie, error: deleteError } = useSWRMutation(
     "reviews",
@@ -29,7 +37,8 @@ const ReviewDetail = ({ setForceRender }) => {
   const handleDelete = async () => {
     try {
       await deleteMovie(reviewId);
-      setForceRender(true);
+      mutate(id);
+      //navigate("/reviews");
     } catch (error) {
       console.error("Error deleting review", error);
     }
@@ -42,12 +51,14 @@ const ReviewDetail = ({ setForceRender }) => {
         mid={id}
         rating={defaultRating}
         setForceRender={setForceRender}
+        mutate={mutate}
       />
     );
   }
   return (
     <>
       <AsyncData loading={isLoading} error={error || deleteError}>
+        <p>{review}</p>
         <Detail
           title={title}
           poster={poster}
@@ -55,6 +66,7 @@ const ReviewDetail = ({ setForceRender }) => {
           genres={[]}
           text={review}
         />
+
         <Box display="flex" alignItems="center">
           <Link to={`/movies/${id}/review/edit`}>
             <EditIcon />

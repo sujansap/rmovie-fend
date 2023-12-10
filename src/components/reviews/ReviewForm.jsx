@@ -23,7 +23,7 @@ import {
 import useSWRMutation from "swr/mutation";
 import { save } from "../../api";
 import Error from "../Error";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { getAll } from "../../api";
 import LabelTextarea from "../movies/LabelTextarea";
 import { useParams, useNavigate } from "react-router-dom";
@@ -35,7 +35,7 @@ const validationRules = {
   },
   rating: {
     required: "Rating is required",
-    min: { value: 1, message: "Rating cannot be lower than 0" },
+    min: { value: 0, message: "Rating cannot be lower than 0" },
     max: { value: 100, message: "Rating cannot be higher than 100" },
   },
 };
@@ -100,14 +100,7 @@ const RatingSlider = ({ firstValue }) => {
   );
 };
 
-export const ReviewForm = ({
-  uid,
-  mid,
-  rid,
-  reviewText,
-  rating,
-  setForceRender,
-}) => {
+export const ReviewForm = ({ uid, mid, rid, reviewText, rating, mutate }) => {
   console.log("rerender movie form");
   const navigate = useNavigate();
   const methods = useForm();
@@ -138,13 +131,13 @@ export const ReviewForm = ({
       review,
       rating,
     });
-    if (setForceRender) {
-      reset();
-      setForceRender(true);
-    } else {
-      reset();
-      navigate(`/movies/${mid}/review`);
+
+    reset();
+    if (mutate) {
+      mutate(mid);
     }
+
+    navigate(`/movies/${mid}/review`);
   };
 
   //const [firstValue, setFirstValue] = useState(rdata.rating);

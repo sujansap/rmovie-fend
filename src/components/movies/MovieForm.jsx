@@ -179,7 +179,6 @@ export default function MovieForm({}) {
     await saveMovie({
       title,
       synopsis,
-      user: 1,
       poster,
       genres: selectedGenres,
     });
