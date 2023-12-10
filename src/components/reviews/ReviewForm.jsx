@@ -100,7 +100,7 @@ const RatingSlider = ({ firstValue }) => {
   );
 };
 
-export const ReviewForm = ({ uid, mid, rid, reviewText, rating, mutate }) => {
+export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
   console.log("rerender movie form");
   const navigate = useNavigate();
   const methods = useForm();
@@ -143,7 +143,7 @@ export const ReviewForm = ({ uid, mid, rid, reviewText, rating, mutate }) => {
   //const [firstValue, setFirstValue] = useState(rdata.rating);
 
   useEffect(() => {
-    if (reviewText) {
+    if (rid) {
       console.log("the movie already has a review show that" + reviewText);
       setValue("reviewText", reviewText);
       setValue("rating", rating);
@@ -173,6 +173,7 @@ export const ReviewForm = ({ uid, mid, rid, reviewText, rating, mutate }) => {
             placeholder="Write your review here"
             name="reviewText"
             label="Review Text"
+            validationRules={validationRules.reviewText}
           />
 
           <FormControl>

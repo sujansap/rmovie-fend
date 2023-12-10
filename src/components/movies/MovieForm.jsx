@@ -33,17 +33,15 @@ const validationRules = {
   },
   poster: {
     required: "Poster url is required",
-    min: { value: 5, message: "min 1" },
-    max: { value: 5000, message: "max 5000" },
   },
   synopsis: {
     required: "Synopsis is required",
-    min: { value: 10, message: "min 10" },
-    max: { value: 5000, message: "max 5000" },
+    minLength: { value: 5, message: "Minimum 5 characters" },
+    maxLength: { value: 5000, message: "max 5000" },
   },
   genre: {
     required: "Genre is required",
-    min: { value: 7, message: "min 10" },
+    minLength: { value: 1, message: "min 10" },
   },
 };
 
