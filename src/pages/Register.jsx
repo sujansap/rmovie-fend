@@ -25,7 +25,7 @@ export default function Register() {
           pathname: "/",
           replace: true,
         });
-      } // 👈 3
+      }
     },
     [register, navigate]
   );

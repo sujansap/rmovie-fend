@@ -25,7 +25,7 @@ import Login from "./pages/Login.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./pages/Logout.jsx";
 import ReviewList from "./components/reviews/ReviewList.jsx";
-import Register from "./pages/register.jsx";
+import Register from "./pages/Register.jsx";
 
 //maak zo dat movie alleen toegevoegd kan worden, maar niet aangepast
 // een review kan toegevoegd en aangepast worden
