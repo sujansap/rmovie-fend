@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ReviewForm } from "./ReviewForm";
 import { Box } from "@chakra-ui/react";
 import { useCallback } from "react";
+import { mutate as globalMutate } from "swr";
 
 const defaultRating = 50;
 
@@ -17,7 +18,12 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
       await onDelete(reviewId);
       if (mutate) {
         mutate(mid);
-        //mutate(`/api/movies/${movieId}/rating`);
+
+        /*globalMutate(`/api/movies/${mid}/rating`, undefined, {
+          revalidateOnMount: true,
+          shouldRetryOnError: true,
+        });*/
+        //mutate(ratingKey, undefined, { revalidate: 1 });
       }
     } catch (error) {
       console.error("Error deleting review", error);

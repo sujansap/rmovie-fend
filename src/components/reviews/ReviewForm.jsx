@@ -19,7 +19,7 @@ import { save } from "../../api";
 
 import LabelTextarea from "../LabelTextarea";
 import { useNavigate } from "react-router-dom";
-
+import { mutate as globalMutate } from "swr";
 import calculateColor from "../CalculateColor";
 
 const validationRules = {
@@ -104,10 +104,11 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
       if (mutate) {
         mutate(mid);
       } else {
+        globalMutate(`/api/movies/${mid}/review`);
         navigate(`/movies/${mid}/review`);
       }
     },
-    [saveReview, navigate, mutate, rid]
+    [saveReview, navigate, mutate, rid, globalMutate]
   );
 
   useEffect(() => {
