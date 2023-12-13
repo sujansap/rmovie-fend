@@ -1,9 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
-import LabelInput from "../components/movies/LabelInput";
+import LabelInput from "../components/LabelInput";
 import { useAuth } from "../contexts/Auth.context";
 import Error from "../components/Error";
+import { Button, Box } from "@chakra-ui/react";
 
 export default function Register() {
   const { error, loading, register } = useAuth();
@@ -54,7 +55,7 @@ export default function Register() {
 
   return (
     <FormProvider {...methods}>
-      <div>
+      <Box margin={5} padding={5} rounded="md" boxShadow="xl">
         <form
           className="d-flex flex-column"
           onSubmit={handleSubmit(handleRegister)}
@@ -83,6 +84,7 @@ export default function Register() {
             label="Password"
             type="password"
             name="password"
+            placeholder="Password"
             validationRules={validationRules.password}
           />
 
@@ -90,30 +92,18 @@ export default function Register() {
             label="Confirm password"
             type="password"
             name="confirmPassword"
+            placeholder="Confirm password"
             validationRules={validationRules.confirmPassword}
           />
+          <Box mt="3">
+            <Button mr="3" type="submit" disabled={loading} bg="blue.500">
+              Register
+            </Button>
 
-          <div className="clearfix">
-            <div className="btn-group float-end">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={loading}
-              >
-                Register
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-light"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+            <Button onClick={handleCancel}>Cancel</Button>
+          </Box>
         </form>
-      </div>
+      </Box>
     </FormProvider>
   );
 }

@@ -9,7 +9,7 @@ const ReviewList = () => {
 
   return (
     <AsyncData loading={isLoading} error={error}>
-      <List MOVIES={REVIEWS}></List>
+      <List MOVIES={REVIEWS} linkToReview={true}></List>
     </AsyncData>
   );
 };

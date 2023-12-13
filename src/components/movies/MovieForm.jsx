@@ -2,29 +2,24 @@ import { useState, memo, useMemo, useEffect } from "react";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import {
   FormControl,
-  FormLabel,
-  Input,
   Tag,
   TagLabel,
   TagCloseButton,
   Stack,
-  Box,
   FormHelperText,
   Button,
-  Textarea,
-  Text,
   Container,
 } from "@chakra-ui/react";
 
 import useSWRMutation from "swr/mutation";
 import { save } from "../../api";
-import Error from "../Error";
+
 import useSWR from "swr";
 import { getAll } from "../../api";
-import LabelInput from "./LabelInput";
-import { useContext } from "react";
+import LabelInput from "../LabelInput";
+
 import { useCallback } from "react";
-import LabelTextarea from "./LabelTextarea";
+import LabelTextarea from "../LabelTextarea";
 
 const validationRules = {
   title: {
@@ -46,12 +41,7 @@ const validationRules = {
 };
 
 //For genre
-const InputGenre = ({
-  selectedGenres,
-  setSelectedGenres,
-  inputValue,
-  setInputValue,
-}) => {
+const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
   const {
     setError,
     setValue,
@@ -136,11 +126,13 @@ const InputGenre = ({
   );
 };
 export default function MovieForm({}) {
-  const { data: GENRES_DATA = [], isLoading, error } = useSWR("genres", getAll);
+  const {
+    data: GENRES_DATA = [],
+    isLoading,
+    error,
+  } = useSWR("movies/genres", getAll);
   console.log("test");
   console.log(GENRES_DATA);
-
-  //const genres = ["Action", "Comedy"];
 
   const genres = GENRES_DATA.map((item) => item.genre);
   console.log(genres);
@@ -151,12 +143,9 @@ export default function MovieForm({}) {
 
   const methods = useForm();
   const {
-    register,
     reset,
     handleSubmit,
     setValue,
-    getValues,
-    setError,
     formState: { errors },
   } = methods;
 
@@ -191,7 +180,7 @@ export default function MovieForm({}) {
         <Container
           margin={5}
           maxWidth="70%"
-          bg="gray.50"
+          //bg="gray.50"
           padding={5}
           rounded="md"
           boxShadow="xl"

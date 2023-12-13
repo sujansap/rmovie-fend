@@ -1,17 +1,19 @@
 import { Box, Text } from "@chakra-ui/react";
 import Movie from "./movies/Movie";
+import { memo } from "react";
 
-const List = ({ MOVIES }) => {
+const List = ({ MOVIES, linkToReview }) => {
   if (MOVIES.length === 0) {
     return (
-      <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
-        <Text>there are no movies yet</Text>
+      <Box margin={5} padding={5} rounded="md" boxShadow="xl">
+        <Text>nothing here yet!</Text>
       </Box>
     );
   }
+
   return (
     <Box>
-      <Box bg="gray.50" margin={5} padding={5} rounded="md" boxShadow="xl">
+      <Box margin={5} padding={5} rounded="md" boxShadow="xl">
         <Box
           m={5}
           display={"grid"}
@@ -30,6 +32,7 @@ const List = ({ MOVIES }) => {
               link={movie.poster}
               movieID={movie.movieId}
               key={movie.movieId}
+              linkToReview={linkToReview}
             />
           ))}
         </Box>
@@ -37,4 +40,4 @@ const List = ({ MOVIES }) => {
     </Box>
   );
 };
-export default List;
+export default memo(List);

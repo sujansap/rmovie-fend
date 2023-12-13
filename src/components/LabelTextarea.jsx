@@ -1,12 +1,11 @@
+import { FormControl, FormLabel, Textarea, Text } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
-export default function LabelInput({
+
+export default function LabelTextarea({
   label,
   name,
-  type,
-  validationRules,
   placeholder,
-  ...rest
+  validationRules,
 }) {
   const {
     register,
@@ -14,20 +13,14 @@ export default function LabelInput({
   } = useFormContext();
 
   const hasError = name in errors;
-  if (!placeholder) {
-    placeholder = name;
-  }
   return (
     <FormControl>
       <FormLabel>{label}</FormLabel>
-      <Input
+      <Textarea
         {...register(name, validationRules)}
-        id={name}
-        type={type}
-        disabled={isSubmitting}
         placeholder={placeholder}
-        {...rest}
-      />
+        disabled={isSubmitting}
+      ></Textarea>
       {hasError ? <Text color="red">{errors[name].message}</Text> : null}
     </FormControl>
   );

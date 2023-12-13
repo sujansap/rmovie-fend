@@ -9,8 +9,9 @@ import {
   SliderTrack,
   Heading,
 } from "@chakra-ui/react";
-
-export const Detail = ({ title, poster, genres, rating, text }) => {
+import { memo } from "react";
+import calculateColor from "./CalculateColor";
+export const Detail = memo(({ title, poster, genres, rating, text }) => {
   return (
     <Box
       display={{ base: "block", md: "grid" }}
@@ -19,8 +20,6 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
       rounded="md"
       padding={4}
       margin={5}
-      color="black"
-      bg="white"
     >
       <Box padding={4} m={3} rounded="md" boxShadow="xl" p="2">
         <Image src={poster} alt="Movie Poster" />
@@ -34,10 +33,15 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
           ))}
         </Box>
         Rating:
-        <Badge ml={2}>{rating}</Badge>{" "}
-        <Slider aria-label="slider-ex-1" value={rating} isDisabled width="100%">
+        <Badge ml={2}>{rating === -1 ? "n/a" : rating}</Badge>{" "}
+        <Slider
+          aria-label="slider-ex-1"
+          value={rating === 0 || rating ? rating : null}
+          isDisabled
+          width="100%"
+        >
           <SliderTrack>
-            <SliderFilledTrack />
+            <SliderFilledTrack bg={calculateColor(rating)} />
           </SliderTrack>
         </Slider>
       </Box>
@@ -49,8 +53,6 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
         borderWidth="1px"
         rounded="md"
         boxShadow="xl"
-        bg="white"
-        color="black"
       >
         <Text
           fontSize={{ base: "md", md: "md" }}
@@ -62,4 +64,4 @@ export const Detail = ({ title, poster, genres, rating, text }) => {
       </Flex>
     </Box>
   );
-};
+});

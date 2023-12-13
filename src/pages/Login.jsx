@@ -1,6 +1,7 @@
 import { Button, Box } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import LabelInput from "../components/movies/LabelInput";
+
+import LabelInput from "../components/LabelInput";
 import { useAuth } from "../contexts/Auth.context";
 import Error from "../components/Error";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +52,7 @@ export default function Login() {
     <FormProvider {...methods}>
       <Error error={error} />
       <form onSubmit={handleSubmit(handleLogin)} onClick={handleCancel}>
-        <Box margin={5} bg="gray.50" padding={5} rounded="md" boxShadow="xl">
+        <Box margin={5} padding={5} rounded="md" boxShadow="xl">
           <LabelInput
             label="email"
             type="text"
@@ -66,13 +67,11 @@ export default function Login() {
             name="password"
             validationRules={validationRules.password}
           />
-
-          <Button type="submit" disabled={loading}>
-            Sign in
-          </Button>
-          <Button type="button" onClick={handleCancel}>
-            Cancel
-          </Button>
+          <Box mt="3">
+            <Button type="submit" disabled={loading} bg="blue.500">
+              Sign in
+            </Button>
+          </Box>
         </Box>
       </form>
     </FormProvider>

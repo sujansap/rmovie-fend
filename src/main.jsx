@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+
 import { ChakraProvider, Box } from "@chakra-ui/react";
 //import './index.css'
 import {
@@ -8,16 +8,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { ColorModeScript } from "@chakra-ui/react";
+import theme from "./components/Theme";
 
 import { AuthProvider } from "./contexts/Auth.context.jsx";
 
 import MovieView from "./pages/movies/MovieView.jsx";
-import AddOrEditMovie from "./pages/movies/AddMovie.jsx";
+
 import AddMovie from "./pages/movies/AddMovie.jsx";
-import { Review } from "./components/reviews/Review.jsx";
 
 import Layout from "./components/Layout.jsx";
-import Movieinfo from "./pages/movies/reviews/Movieinfo.jsx";
+import Movieinfo from "./pages/movies/Movieinfo.jsx";
 import Reviewinfo from "./pages/movies/reviews/Reviewinfo.jsx";
 import ReviewEdit from "./pages/movies/reviews/ReviewEdit.jsx";
 import Login from "./pages/Login.jsx";
@@ -26,12 +27,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./pages/Logout.jsx";
 import ReviewList from "./components/reviews/ReviewList.jsx";
 import Register from "./pages/Register.jsx";
-
-//maak zo dat movie alleen toegevoegd kan worden, maar niet aangepast
-// een review kan toegevoegd en aangepast worden
-
-//via post man
-//bearer token
+import NotFound from "./components/NotFound";
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -95,20 +91,10 @@ const router = createBrowserRouter([
         path: "/logout",
         element: <Logout />,
       },
-
-      /*{
-        path: "/places",
-        children: [
-          {
-            index: true,
-            element: <PlacesList />,
-          },
-        ],
-      },
       {
         path: "*",
         element: <NotFound />,
-      },*/
+      },
     ],
   },
 ]);
@@ -116,7 +102,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+
         <RouterProvider router={router} />
       </ChakraProvider>
     </AuthProvider>

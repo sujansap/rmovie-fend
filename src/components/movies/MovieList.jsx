@@ -1,7 +1,3 @@
-import Movie from "./Movie";
-
-import { useState } from "react";
-import { Box, Container, Text } from "@chakra-ui/react";
 import useSWR from "swr";
 import { getAll } from "../../api";
 import AsyncData from "../../components/AsyncData";

@@ -1,15 +1,9 @@
-import { useState, useEffect } from "react";
-import {
-  useForm,
-  FormProvider,
-  useFormContext,
-  useController,
-} from "react-hook-form";
-
+import { useState, useEffect, memo } from "react";
+import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import Error from "../Error";
 import {
   Box,
   Text,
-  Textarea,
   Button,
   Slider,
   SliderTrack,
@@ -17,16 +11,16 @@ import {
   SliderThumb,
   FormLabel,
   FormControl,
-  Tooltip,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 
 import useSWRMutation from "swr/mutation";
 import { save } from "../../api";
-import Error from "../Error";
-import useSWR, { mutate } from "swr";
-import { getAll } from "../../api";
-import LabelTextarea from "../movies/LabelTextarea";
-import { useParams, useNavigate } from "react-router-dom";
+
+import LabelTextarea from "../LabelTextarea";
+import { useNavigate } from "react-router-dom";
+
+import calculateColor from "../CalculateColor";
 
 const validationRules = {
   reviewText: {
@@ -40,24 +34,15 @@ const validationRules = {
   },
 };
 
-const calculateColor = (value) => {
-  const red = Math.min(255, Math.round((1 - value / 100) * 255));
-  //230 for green, otherwise too light green
-  const green = Math.min(230, Math.round((value / 100) * 255));
-  return `rgb(${red},   ${green}, 0)`;
-};
-
-const RatingSlider = ({ firstValue }) => {
+const RatingSlider = memo(({ firstValue }) => {
   console.log("the value that the slider comp gets is: " + firstValue);
-  const [showTooltip, setShowTooltip] = useState(false);
+
   const [sliderValue, setSliderValue] = useState(firstValue);
 
-  //const { register, errors, getValues, setValue } = useFormContext();
   const {
-    getValues,
     setValue,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useFormContext();
 
   const hasError = "rating" in errors;
@@ -65,11 +50,9 @@ const RatingSlider = ({ firstValue }) => {
   return (
     <Box>
       <Slider
-        //why not working with register
         {...register("rating", validationRules["rating"])}
         min={0}
         max={100}
-        // {...field}
         value={sliderValue}
         maxW="50%"
         name="rating"
@@ -81,16 +64,7 @@ const RatingSlider = ({ firstValue }) => {
         <SliderTrack>
           <SliderFilledTrack bg={calculateColor(sliderValue)} />
         </SliderTrack>
-        <Tooltip
-          hasArrow
-          bg={calculateColor(sliderValue)}
-          color="white"
-          placement="top"
-          isOpen={showTooltip}
-          label={`${sliderValue}%`}
-        >
-          <SliderThumb />
-        </Tooltip>
+        <SliderThumb />
       </Slider>
       <Text color={calculateColor(sliderValue)}>{sliderValue}/100</Text>
       <Box>
@@ -98,20 +72,16 @@ const RatingSlider = ({ firstValue }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
-  console.log("rerender movie form");
   const navigate = useNavigate();
   const methods = useForm();
   const {
-    register,
     reset,
     handleSubmit,
     setValue,
-    getValues,
-    setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = methods;
 
   const { trigger: saveReview, error: saveError } = useSWRMutation(
@@ -119,77 +89,68 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
     save
   );
 
-  const onSubmit = async (data) => {
-    console.log(getValues("rating"));
-    console.log(data.reviewText);
-    console.log(data.rating);
-    const { reviewText: review, rating } = data;
-    console.log(data);
-    await saveReview({
-      id: rid ? rid : null,
-      movieId: mid,
-      review,
-      rating,
-    });
+  const onSubmit = useCallback(
+    async (data) => {
+      const { reviewText: review, rating } = data;
 
-    reset();
-    if (mutate) {
-      mutate(mid);
-    }
+      await saveReview({
+        id: rid ? rid : null,
+        movieId: mid,
+        review,
+        rating,
+      });
 
-    navigate(`/movies/${mid}/review`);
-  };
-
-  //const [firstValue, setFirstValue] = useState(rdata.rating);
+      reset();
+      if (mutate) {
+        mutate(mid);
+      } else {
+        navigate(`/movies/${mid}/review`);
+      }
+    },
+    [saveReview, navigate, mutate, rid]
+  );
 
   useEffect(() => {
     if (rid) {
       console.log("the movie already has a review show that" + reviewText);
       setValue("reviewText", reviewText);
       setValue("rating", rating);
-
-      //console.log("change firstValue " + rdata.rating);
-      // setFirstValue(rdata.rating);
     }
   });
 
   console.log("the first value after change is: ");
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          margin={5}
-          //maxWidth="70%"
-          bg="gray.50"
-          padding={5}
-          rounded="md"
-          boxShadow="xl"
-        >
-          <Text fontSize="xl" fontWeight="bold">
-            Review
-          </Text>
+    <>
+      <Error error={saveError} />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box margin={5} padding={5} rounded="md" boxShadow="xl">
+            <Text fontSize="xl" fontWeight="bold">
+              Review
+            </Text>
 
-          <LabelTextarea
-            placeholder="Write your review here"
-            name="reviewText"
-            label="Review Text"
-            validationRules={validationRules.reviewText}
-          />
+            <LabelTextarea
+              placeholder="Write your review here"
+              name="reviewText"
+              label="Review Text"
+              validationRules={validationRules.reviewText}
+            />
 
-          <FormControl>
-            <FormLabel>Rating</FormLabel>
-            <RatingSlider firstValue={rating} />
-          </FormControl>
-          <Button
-            type="submit"
-            colorScheme="blue"
-            marginTop={5}
-            //onClick={() => (setForceRender ? setForceRender(true) : null)}
-          >
-            Post
-          </Button>
-        </Box>
-      </form>
-    </FormProvider>
+            <FormControl>
+              <FormLabel>Rating</FormLabel>
+              <RatingSlider firstValue={rating} />
+            </FormControl>
+            <Button
+              type="submit"
+              colorScheme="blue"
+              marginTop={5}
+              disabled={isSubmitting}
+            >
+              Post
+            </Button>
+          </Box>
+        </form>
+      </FormProvider>
+    </>
   );
 };

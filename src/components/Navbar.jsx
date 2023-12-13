@@ -1,8 +1,23 @@
-import { Box, Flex, Spacer, Heading } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Heading, Button, Link } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
+import { useColorMode } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 import { useAuth } from "../contexts/Auth.context";
 
+const ThemeToggle = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  return (
+    <Link>
+      {colorMode === "light" ? (
+        <MoonIcon onClick={toggleColorMode} />
+      ) : (
+        <SunIcon onClick={toggleColorMode} />
+      )}
+    </Link>
+  );
+};
 export default function Navbar() {
   const { isAuthed } = useAuth();
 
@@ -17,8 +32,8 @@ export default function Navbar() {
           <NavLink to="/">Movie App</NavLink>
         </Heading>
       </Box>
-      <Spacer />
-      <Box p="2">
+
+      <Box p="2" ml="5">
         <NavLink to="/movies">Movies</NavLink>
       </Box>
 
@@ -28,18 +43,29 @@ export default function Navbar() {
       <Box p="2">
         <NavLink to="/movies/add">Add Movie</NavLink>
       </Box>
+
+      <Spacer />
+
+      <ThemeToggle />
       {isAuthed ? (
-        <Box p="2">
+        <Box p="2" display="flex" alignItems="center">
           <NavLink className="nav-link" to="/logout">
             Logout
           </NavLink>
         </Box>
       ) : (
-        <Box p="2">
-          <NavLink className="nav-link" to="/login">
-            Login
-          </NavLink>
-        </Box>
+        <>
+          <Box p="2" display="flex" alignItems="center">
+            <NavLink className="nav-link" to="/login">
+              Login
+            </NavLink>
+          </Box>
+          <Box p="2">
+            <NavLink className="nav-link" to="/register">
+              Register
+            </NavLink>
+          </Box>
+        </>
       )}
     </Flex>
   );

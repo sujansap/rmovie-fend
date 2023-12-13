@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
 
     localStorage.setItem(JWT_TOKEN_KEY, token);
-    localStorage.setItem(USER_ID_KEY, user.id);
+    localStorage.setItem(USER_ID_KEY, user.userId);
   }, []);
 
   const login = useCallback(
