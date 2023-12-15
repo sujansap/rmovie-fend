@@ -104,7 +104,7 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
       if (mutate) {
         mutate(mid);
       } else {
-        globalMutate(`/api/movies/${mid}/review`);
+        globalMutate(`movies/${mid}/review`);
         navigate(`/movies/${mid}/review`);
       }
     },
