@@ -6,6 +6,7 @@ export default function LabelTextarea({
   name,
   placeholder,
   validationRules,
+  ...rest
 }) {
   const {
     register,
@@ -20,8 +21,13 @@ export default function LabelTextarea({
         {...register(name, validationRules)}
         placeholder={placeholder}
         disabled={isSubmitting}
+        {...rest}
       ></Textarea>
-      {hasError ? <Text color="red">{errors[name].message}</Text> : null}
+      {hasError ? (
+        <Text data-cy="label_input_error" color="red">
+          {errors[name].message}
+        </Text>
+      ) : null}
     </FormControl>
   );
 }

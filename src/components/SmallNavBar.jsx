@@ -11,7 +11,9 @@ export default function SmallNavBar({
         <Link to={`/movies/${id}`}>Movie Info</Link>
       </Box>
       <Box p="2" bg={activeReview ? "blue.200" : ""} rounded="full" mr={2}>
-        <Link to={`/movies/${id}/review`}>Review</Link>
+        <Link data-cy="review_link" to={`/movies/${id}/review`}>
+          Review
+        </Link>
       </Box>
     </Flex>
   );

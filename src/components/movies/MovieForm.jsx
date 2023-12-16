@@ -5,9 +5,12 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
+  CloseButton,
   Stack,
   FormHelperText,
   Button,
+  Alert,
+  AlertIcon,
   Container,
 } from "@chakra-ui/react";
 
@@ -100,6 +103,7 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
         label="Genres"
         name="genre"
         type="text"
+        data-cy="genres_input"
         validationRules={validationRules.genre}
         onKeyDown={handelGenreEnter}
       ></LabelInput>
@@ -146,7 +150,7 @@ export default function MovieForm({}) {
     reset,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = methods;
 
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -174,6 +178,10 @@ export default function MovieForm({}) {
     reset();
   };
 
+  const onClose = () => {
+    methods.reset({ isSubmitSuccessful: false });
+  };
+
   return (
     <FormProvider {...methods} genres={genres}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -189,6 +197,7 @@ export default function MovieForm({}) {
             label="Movie Title"
             name="title"
             type="title"
+            data-cy="title_input"
             validationRules={validationRules.title}
           />
 
@@ -196,6 +205,7 @@ export default function MovieForm({}) {
             name="synopsis"
             placeholder="The movie is about a..."
             label="synopsis"
+            data-cy="synopsis_input"
             validationRules={validationRules.synopsis}
           />
 
@@ -212,12 +222,14 @@ export default function MovieForm({}) {
             label="Poster"
             name="poster"
             type="url"
+            data-cy="poster_input"
             validationRules={validationRules.poster}
           />
 
           <Button
             type="submit"
             colorScheme="blue"
+            data-cy="submit_btn"
             marginTop={5}
             onClick={() => setGenres(selectedGenres)}
           >
@@ -225,6 +237,18 @@ export default function MovieForm({}) {
           </Button>
         </Container>
       </form>
+      {isSubmitSuccessful ? (
+        <Alert status="success" data-cy="added_message">
+          <AlertIcon />
+          Movie added successfully!
+          <CloseButton
+            position="absolute"
+            right="8px"
+            top="8px"
+            onClick={onClose}
+          />
+        </Alert>
+      ) : null}
     </FormProvider>
   );
 }

@@ -17,7 +17,7 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
     try {
       await onDelete(reviewId);
       if (mutate) {
-        mutate(mid);
+        mutate(""); //mid
 
         /*globalMutate(`/api/movies/${mid}/rating`, undefined, {
           revalidateOnMount: true,
@@ -52,7 +52,7 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
         <Box ml={3} mr={2} />
 
         <Link>
-          <DeleteIcon onClick={handleDelete} />
+          <DeleteIcon onClick={handleDelete} data-cy="review_delete_btn" />
         </Link>
       </Box>
     </>

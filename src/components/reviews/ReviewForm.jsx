@@ -56,6 +56,7 @@ const RatingSlider = memo(({ firstValue }) => {
         value={sliderValue}
         maxW="50%"
         name="rating"
+        data-cy="ratingslider_input"
         onChange={(v) => {
           setValue("rating", v);
           setSliderValue(v);
@@ -102,7 +103,7 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
 
       reset();
       if (mutate) {
-        mutate(mid);
+        mutate(""); //mid
       } else {
         globalMutate(`movies/${mid}/review`);
         navigate(`/movies/${mid}/review`);
@@ -134,6 +135,7 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
               placeholder="Write your review here"
               name="reviewText"
               label="Review Text"
+              data-cy="review_input"
               validationRules={validationRules.reviewText}
             />
 
@@ -142,6 +144,7 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
               <RatingSlider firstValue={rating} />
             </FormControl>
             <Button
+              data-cy="submit_review_btn"
               type="submit"
               colorScheme="blue"
               marginTop={5}

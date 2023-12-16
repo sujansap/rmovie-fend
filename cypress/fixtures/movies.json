@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "movieId": 41,
+      "title": "The Great Movie",
+      "synopsis": "This is an amazing movie about...",
+      "poster": "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg",
+      "userId": 1
+    }
+  ],
+  "count": 1
+}

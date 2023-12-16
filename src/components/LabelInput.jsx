@@ -29,7 +29,11 @@ export default function LabelInput({
         placeholder={placeholder}
         {...rest}
       />
-      {hasError ? <Text color="red">{errors[name].message}</Text> : null}
+      {hasError ? (
+        <Text color="red" data-cy="label_input_error">
+          {errors[name].message}
+        </Text>
+      ) : null}
     </FormControl>
   );
 }

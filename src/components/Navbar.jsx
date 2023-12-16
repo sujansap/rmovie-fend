@@ -18,6 +18,7 @@ const ThemeToggle = () => {
     </Link>
   );
 };
+
 export default function Navbar() {
   const { isAuthed } = useAuth();
 
@@ -49,7 +50,7 @@ export default function Navbar() {
       <ThemeToggle />
       {isAuthed ? (
         <Box p="2" display="flex" alignItems="center">
-          <NavLink className="nav-link" to="/logout">
+          <NavLink data-cy="logout_btn" className="nav-link" to="/logout">
             Logout
           </NavLink>
         </Box>

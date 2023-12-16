@@ -58,6 +58,7 @@ export default function Login() {
             type="text"
             name="email"
             placeholder="your@email.com"
+            data-cy="email_input"
             validationRules={validationRules.email}
           />
 
@@ -65,10 +66,16 @@ export default function Login() {
             label="password"
             type="password"
             name="password"
+            data-cy="password_input"
             validationRules={validationRules.password}
           />
           <Box mt="3">
-            <Button type="submit" disabled={loading} bg="blue.500">
+            <Button
+              type="submit"
+              disabled={loading}
+              bg="blue.500"
+              data-cy="submit_btn"
+            >
               Sign in
             </Button>
           </Box>
