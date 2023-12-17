@@ -8,7 +8,7 @@ export default function ReviewEdit() {
   const { id } = useParams();
   const getFrom = `movies/${id}/review`;
   const { data: REVIEW = [], isLoading, error } = useSWR(getFrom, getAll);
-  const { title, review, rating, poster, reviewId: rid } = REVIEW;
+  const { review, rating, reviewId: rid } = REVIEW;
 
   return (
     <AsyncData loading={isLoading} error={error}>

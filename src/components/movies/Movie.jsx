@@ -1,9 +1,9 @@
-import { Box, Text, Image } from "@chakra-ui/react";
+import { Box, Text, Image, Container, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import { memo } from "react";
 
-const Movie = ({ title, link, movieID, linkToReview }) => {
+const Movie = ({ userID, title, link, movieID, linkToReview }) => {
   return (
     <Box data-cy="movie" borderWidth="1px" rounded="md" boxShadow="xl" p="3">
       <Box>

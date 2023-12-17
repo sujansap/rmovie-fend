@@ -77,6 +77,7 @@ const RatingSlider = memo(({ firstValue }) => {
 
 export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
   const navigate = useNavigate();
+
   const methods = useForm();
   const {
     reset,

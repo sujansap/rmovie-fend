@@ -13,8 +13,6 @@ import theme from "./components/Theme";
 
 import { AuthProvider } from "./contexts/Auth.context.jsx";
 
-import MovieView from "./pages/movies/MovieView.jsx";
-
 import AddMovie from "./pages/movies/AddMovie.jsx";
 
 import Layout from "./components/Layout.jsx";
@@ -25,9 +23,10 @@ import Login from "./pages/Login.jsx";
 
 import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./pages/Logout.jsx";
-import ReviewList from "./components/reviews/ReviewList.jsx";
+import ReviewList from "./pages/movies/ReviewList";
 import Register from "./pages/Register.jsx";
 import NotFound from "./components/NotFound";
+import MovieList from "./pages/movies/MovieList";
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -42,7 +41,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <MovieView />,
+            element: <MovieList />,
           },
           {
             path: ":id",

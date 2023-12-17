@@ -129,7 +129,7 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
     </FormControl>
   );
 };
-export default function MovieForm({}) {
+export default function MovieForm() {
   const {
     data: GENRES_DATA = [],
     isLoading,
@@ -166,6 +166,7 @@ export default function MovieForm({}) {
   console.log("rendering movie form...");
   const onSubmit = async (data) => {
     const { title, synopsis, poster } = data;
+
     console.log(data);
     await saveMovie({
       title,
@@ -204,7 +205,7 @@ export default function MovieForm({}) {
           <LabelTextarea
             name="synopsis"
             placeholder="The movie is about a..."
-            label="synopsis"
+            label="Synopsis"
             data-cy="synopsis_input"
             validationRules={validationRules.synopsis}
           />
@@ -220,6 +221,7 @@ export default function MovieForm({}) {
 
           <LabelInput
             label="Poster"
+            placeholder="poster url"
             name="poster"
             type="url"
             data-cy="poster_input"

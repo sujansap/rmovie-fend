@@ -8,7 +8,6 @@ import {
 } from "react";
 import useSWRMutation from "swr/mutation";
 import * as api from "../api";
-import { setAuthToken } from "../api";
 
 const JWT_TOKEN_KEY = "jwtToken";
 const USER_ID_KEY = "userId";
@@ -19,7 +18,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem(JWT_TOKEN_KEY));
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem(USER_ID_KEY));
   const [ready, setReady] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
   //als alles gerenderd is wordt useEffect() uitgevoerd
@@ -44,7 +43,6 @@ export const AuthProvider = ({ children }) => {
   const setSession = useCallback((token, user) => {
     setToken(token);
     setUser(user);
-
     localStorage.setItem(JWT_TOKEN_KEY, token);
     localStorage.setItem(USER_ID_KEY, user.userId);
   }, []);

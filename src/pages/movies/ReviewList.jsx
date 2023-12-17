@@ -1,7 +1,8 @@
 import useSWR from "swr";
 import { getAll } from "../../api";
-import AsyncData from "../AsyncData";
-import List from "../List";
+
+import AsyncData from "../../components/AsyncData";
+import ListWithSearch from "../../components/ListWithSearch";
 
 const ReviewList = () => {
   const { data: REVIEWS = [], isLoading, error } = useSWR("reviews", getAll);
@@ -9,7 +10,7 @@ const ReviewList = () => {
 
   return (
     <AsyncData loading={isLoading} error={error}>
-      <List MOVIES={REVIEWS} linkToReview={true}></List>
+      <ListWithSearch MOVIES={REVIEWS} linkToReview={true} />
     </AsyncData>
   );
 };
