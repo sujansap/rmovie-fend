@@ -75,7 +75,7 @@ const RatingSlider = memo(({ firstValue }) => {
   );
 });
 
-export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
+export const ReviewForm = ({ mid, REVIEW, mutate }) => {
   const navigate = useNavigate();
 
   const methods = useForm();
@@ -96,7 +96,7 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
       const { reviewText: review, rating } = data;
 
       await saveReview({
-        id: rid ? rid : null,
+        id: REVIEW?.reviewId,
         movieId: mid,
         review,
         rating,
@@ -110,14 +110,14 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
         navigate(`/movies/${mid}/review`);
       }
     },
-    [saveReview, navigate, mutate, rid, globalMutate]
+    [saveReview, navigate, mutate, REVIEW?.reviewId, globalMutate]
   );
 
   useEffect(() => {
-    if (rid) {
-      console.log("the movie already has a review show that" + reviewText);
-      setValue("reviewText", reviewText);
-      setValue("rating", rating);
+    if (REVIEW) {
+      //console.log("the movie already has a review show that" + reviewText);
+      setValue("reviewText", REVIEW?.review);
+      setValue("rating", REVIEW?.rating);
     }
   });
 
@@ -142,7 +142,7 @@ export const ReviewForm = ({ mid, rid, reviewText, rating, mutate }) => {
 
             <FormControl>
               <FormLabel>Rating</FormLabel>
-              <RatingSlider firstValue={rating} />
+              <RatingSlider firstValue={REVIEW?.rating || 50} />
             </FormControl>
             <Button
               data-cy="submit_review_btn"

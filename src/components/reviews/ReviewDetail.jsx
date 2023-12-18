@@ -7,15 +7,14 @@ import { ReviewForm } from "./ReviewForm";
 import { Box } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { mutate as globalMutate } from "swr";
+import { useEffect } from "react";
 
 const defaultRating = 50;
 
 const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
-  const { title, review, rating, poster, reviewId } = REVIEW;
-
   const handleDelete = useCallback(async () => {
     try {
-      await onDelete(reviewId);
+      await onDelete(REVIEW?.reviewId);
       if (mutate) {
         mutate(""); //mid
 
@@ -28,35 +27,37 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
     } catch (error) {
       console.error("Error deleting review", error);
     }
-  }, [onDelete, reviewId, mutate, mid]);
+  }, [onDelete, REVIEW?.reviewId, mutate, mid]);
 
-  if (!review) {
-    return <ReviewForm mid={mid} rating={defaultRating} mutate={mutate} />;
+  useEffect(() => {});
+
+  if (REVIEW && Object.keys(REVIEW).length !== 0) {
+    const { title, review, rating, poster } = REVIEW;
+    return (
+      <>
+        <Detail
+          title={title}
+          poster={poster}
+          rating={rating}
+          genres={[]}
+          text={review}
+        />
+
+        <Box display="flex" alignItems="center">
+          <Link to={`/movies/${mid}/review/edit`}>
+            <EditIcon />
+          </Link>
+
+          <Box ml={3} mr={2} />
+
+          <Link>
+            <DeleteIcon onClick={handleDelete} data-cy="review_delete_btn" />
+          </Link>
+        </Box>
+      </>
+    );
   }
-
-  return (
-    <>
-      <Detail
-        title={title}
-        poster={poster}
-        rating={rating}
-        genres={[]}
-        text={review}
-      />
-
-      <Box display="flex" alignItems="center">
-        <Link to={`/movies/${mid}/review/edit`}>
-          <EditIcon />
-        </Link>
-
-        <Box ml={3} mr={2} />
-
-        <Link>
-          <DeleteIcon onClick={handleDelete} data-cy="review_delete_btn" />
-        </Link>
-      </Box>
-    </>
-  );
+  return <ReviewForm mid={mid} rating={defaultRating} mutate={mutate} />;
 };
 
 export default ReviewDetail;

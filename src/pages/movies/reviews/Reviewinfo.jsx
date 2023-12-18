@@ -7,18 +7,18 @@ import ReviewDetail from "../../../components/reviews/ReviewDetail";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import AsyncData from "../../../components/AsyncData";
-import { getAll, deleteById } from "../../../api/index";
+import { getAll, deleteById, getById } from "../../../api/index";
 //rename this to Reviewpage
 const Reviewinfo = () => {
   const { id } = useParams();
 
   const getReviewFrom = `movies/${id}/review`;
   const {
-    data: REVIEW = [],
+    data: REVIEW,
     isLoading,
     error,
     mutate,
-  } = useSWR(getReviewFrom, getAll);
+  } = useSWR(getReviewFrom, getById);
 
   const { trigger: deleteMovie, error: deleteError } = useSWRMutation(
     "reviews",

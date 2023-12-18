@@ -52,4 +52,24 @@ describe("Movie info", () => {
       },
     });
   });
+
+  it("should be able to see review if there is one, then go to other user to see if other which review it shows", () => {
+    cy.intercept("GET", "http://localhost:9000/api/movies/41/review", {
+      fixture: "review.json",
+    }).as("getReview");
+
+    cy.visit("http://localhost:5173/movies/41/review");
+    cy.wait("@getReview");
+
+    cy.get("[data-cy=review_delete_btn]").should("be.visible");
+
+    cy.get("[data-cy=logout_btn]").click();
+
+    cy.login("januser@gmail.com", "verydifficult");
+    cy.intercept("GET", "http://localhost:9000/api/movies/41/review", {
+      fixture: "empty_review.json",
+    });
+    cy.visit("http://localhost:5173/movies/41/review");
+    cy.get("[data-cy=review_input]").should("be.visible");
+  });
 });

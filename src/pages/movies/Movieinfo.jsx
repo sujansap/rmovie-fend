@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import useSWR from "swr";
-import { getAll, deleteById } from "../../api";
+import { getAll, deleteById, getById } from "../../api";
 import AsyncData from "../../components/AsyncData";
 
 import MovieDetail from "../../components/movies/MovieDetail";
@@ -19,7 +19,8 @@ const Movieinfo = () => {
 
   const getFrom = `movies/${id}`;
   console.log("get from is " + getFrom);
-  const { data: MOVIE = [], isLoading, error } = useSWR(getFrom, getAll);
+  const { data: MOVIE, isLoading, error } = useSWR(getFrom, getById);
+
   const { trigger: deleteMovie, error: deleteError } = useSWRMutation(
     "movies",
     deleteById
@@ -27,11 +28,16 @@ const Movieinfo = () => {
 
   const getRatingFrom = `movies/${id}/rating`;
   const {
-    data: avgRating = {},
+    data: avgRating,
     isLoadingRating,
     errorRating,
     mutateRating,
-  } = useSWR(getRatingFrom, getAll);
+  } = useSWR(getRatingFrom, getById);
+
+  console.log("LOADING 1");
+  if (MOVIE) {
+    console.log(MOVIE);
+  }
 
   return (
     <>

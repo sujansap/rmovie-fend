@@ -7,14 +7,16 @@ import HasAccess from "../HasAcces";
 
 const MovieDetail = ({ MOVIE, avgRating, userId, onDelete }) => {
   const navigate = useNavigate();
-  let rating = avgRating.rating;
+
+  let rating = avgRating?.rating;
 
   rating = rating >= 0 ? rating : -1;
-  console.log("logged in user");
+
+  /*console.log("logged in user");
   console.log(userId);
   console.log("movie added by user");
   console.log(MOVIE.userId);
-
+*/
   const handleDelete = useCallback(async () => {
     try {
       await onDelete(MOVIE.movieId);
@@ -28,14 +30,14 @@ const MovieDetail = ({ MOVIE, avgRating, userId, onDelete }) => {
   return (
     <>
       <Detail
-        title={MOVIE.title}
-        poster={MOVIE.poster}
+        title={MOVIE?.title}
+        poster={MOVIE?.poster}
         rating={rating}
-        genres={MOVIE.genreMovies || []}
-        text={MOVIE.synopsis}
+        genres={MOVIE?.genreMovies || []}
+        text={MOVIE?.synopsis}
       />
       <HasAccess>
-        {MOVIE.userId === userId ? (
+        {MOVIE?.userId === userId ? (
           <Box display="flex" alignItems="center">
             <Box ml={3} mr={2} />
 

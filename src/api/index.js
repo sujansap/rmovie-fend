@@ -45,3 +45,11 @@ export const post = async (url, { arg }) => {
 
   return data;
 };
+
+export const getById = async (url) => {
+  const { data } = await axios.get(`${baseUrl}/${url}`);
+
+  console.log("FIST LODING DATA");
+  console.log(data);
+  return data;
+};
