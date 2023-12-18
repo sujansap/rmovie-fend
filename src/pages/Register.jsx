@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import LabelInput from "../components/LabelInput";
 import { useAuth } from "../contexts/Auth.context";
 import Error from "../components/Error";
-import { Button, Box } from "@chakra-ui/react";
+import { Button, Box, Heading } from "@chakra-ui/react";
 
 export default function Register() {
   const { error, loading, register } = useAuth();
@@ -54,56 +54,57 @@ export default function Register() {
   );
 
   return (
-    <FormProvider {...methods}>
-      <Box margin={5} padding={5} rounded="md" boxShadow="xl">
-        <form
-          className="d-flex flex-column"
-          onSubmit={handleSubmit(handleRegister)}
-        >
-          <h1>Register</h1>
+    <>
+      <Error error={error} />
+      <FormProvider {...methods}>
+        <Box margin={5} padding={5} rounded="md" boxShadow="xl">
+          <form
+            className="d-flex flex-column"
+            onSubmit={handleSubmit(handleRegister)}
+          >
+            <Heading>Register</Heading>
 
-          <Error error={error} />
+            <LabelInput
+              label="Username"
+              type="text"
+              name="username"
+              placeholder="Username"
+              validationRules={validationRules.username}
+            />
 
-          <LabelInput
-            label="Username"
-            type="text"
-            name="username"
-            placeholder="Username"
-            validationRules={validationRules.username}
-          />
+            <LabelInput
+              label="Email"
+              type="text"
+              name="email"
+              placeholder="your@email.com"
+              validationRules={validationRules.email}
+            />
 
-          <LabelInput
-            label="Email"
-            type="text"
-            name="email"
-            placeholder="your@email.com"
-            validationRules={validationRules.email}
-          />
+            <LabelInput
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="Password"
+              validationRules={validationRules.password}
+            />
 
-          <LabelInput
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            validationRules={validationRules.password}
-          />
+            <LabelInput
+              label="Confirm password"
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm password"
+              validationRules={validationRules.confirmPassword}
+            />
+            <Box mt="3">
+              <Button mr="3" type="submit" disabled={loading} bg="blue.500">
+                Register
+              </Button>
 
-          <LabelInput
-            label="Confirm password"
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            validationRules={validationRules.confirmPassword}
-          />
-          <Box mt="3">
-            <Button mr="3" type="submit" disabled={loading} bg="blue.500">
-              Register
-            </Button>
-
-            <Button onClick={handleCancel}>Cancel</Button>
-          </Box>
-        </form>
-      </Box>
-    </FormProvider>
+              <Button onClick={handleCancel}>Cancel</Button>
+            </Box>
+          </form>
+        </Box>
+      </FormProvider>
+    </>
   );
 }
