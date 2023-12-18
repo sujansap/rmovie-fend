@@ -4,7 +4,7 @@ import { useColorMode } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 import { useAuth } from "../contexts/Auth.context";
-
+import HasAccess from "./HasAcces";
 const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -20,7 +20,7 @@ const ThemeToggle = () => {
 };
 
 export default function Navbar() {
-  const { isAuthed } = useAuth();
+  const { isAuthed, isAdmin, user } = useAuth();
 
   return (
     <Flex m={5} minWidth="max-content" alignItems="center" gap="1">
@@ -41,13 +41,16 @@ export default function Navbar() {
       <Box p="2">
         <NavLink to="/reviews">Reviews</NavLink>
       </Box>
-      <Box p="2">
-        <NavLink to="/movies/add">Add Movie</NavLink>
-      </Box>
 
+      <HasAccess>
+        <Box p="2">
+          <NavLink to="/movies/add">Add Movie</NavLink>
+        </Box>
+      </HasAccess>
       <Spacer />
 
       <ThemeToggle />
+
       {isAuthed ? (
         <Box p="2" display="flex" alignItems="center">
           <NavLink data-cy="logout_btn" className="nav-link" to="/logout">

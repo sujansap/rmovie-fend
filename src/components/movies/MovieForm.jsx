@@ -12,8 +12,9 @@ import {
   Alert,
   AlertIcon,
   Container,
+  Box,
 } from "@chakra-ui/react";
-
+import HasAccess from "../HasAcces";
 import useSWRMutation from "swr/mutation";
 import { save } from "../../api";
 
@@ -23,7 +24,7 @@ import LabelInput from "../LabelInput";
 
 import { useCallback } from "react";
 import LabelTextarea from "../LabelTextarea";
-
+import Error from "../Error";
 const validationRules = {
   title: {
     required: "Movie title is required",
@@ -168,13 +169,17 @@ export default function MovieForm() {
     const { title, synopsis, poster } = data;
 
     console.log(data);
-    await saveMovie({
-      title,
-      synopsis,
-      poster,
-      genres: selectedGenres,
-    });
 
+    try {
+      await saveMovie({
+        title,
+        synopsis,
+        poster,
+        genres: selectedGenres,
+      });
+    } catch (error) {
+      console.log("you are not supposed to");
+    }
     setSelectedGenres([]);
     reset();
   };
@@ -184,73 +189,79 @@ export default function MovieForm() {
   };
 
   return (
-    <FormProvider {...methods} genres={genres}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Container
-          margin={5}
-          maxWidth="70%"
-          //bg="gray.50"
-          padding={5}
-          rounded="md"
-          boxShadow="xl"
-        >
-          <LabelInput
-            label="Movie Title"
-            name="title"
-            type="title"
-            data-cy="title_input"
-            validationRules={validationRules.title}
-          />
-
-          <LabelTextarea
-            name="synopsis"
-            placeholder="The movie is about a..."
-            label="Synopsis"
-            data-cy="synopsis_input"
-            validationRules={validationRules.synopsis}
-          />
-
-          <InputGenre
-            selectedGenres={selectedGenres}
-            setSelectedGenres={setSelectedGenres}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            genreValue={genreValue}
-            setGenreValue={setGenreValue}
-          />
-
-          <LabelInput
-            label="Poster"
-            placeholder="poster url"
-            name="poster"
-            type="url"
-            data-cy="poster_input"
-            validationRules={validationRules.poster}
-          />
-
-          <Button
-            type="submit"
-            colorScheme="blue"
-            data-cy="submit_btn"
-            marginTop={5}
-            onClick={() => setGenres(selectedGenres)}
+    <HasAccess>
+      <FormProvider {...methods} genres={genres}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Container
+            margin={5}
+            maxWidth="70%"
+            //bg="gray.50"
+            padding={5}
+            rounded="md"
+            boxShadow="xl"
           >
-            Add
-          </Button>
-        </Container>
-      </form>
-      {isSubmitSuccessful ? (
-        <Alert status="success" data-cy="added_message">
-          <AlertIcon />
-          Movie added successfully!
-          <CloseButton
-            position="absolute"
-            right="8px"
-            top="8px"
-            onClick={onClose}
-          />
-        </Alert>
-      ) : null}
-    </FormProvider>
+            <LabelInput
+              label="Movie Title"
+              name="title"
+              type="title"
+              data-cy="title_input"
+              validationRules={validationRules.title}
+            />
+
+            <LabelTextarea
+              name="synopsis"
+              placeholder="The movie is about a..."
+              label="Synopsis"
+              data-cy="synopsis_input"
+              validationRules={validationRules.synopsis}
+            />
+
+            <InputGenre
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              genreValue={genreValue}
+              setGenreValue={setGenreValue}
+            />
+
+            <LabelInput
+              label="Poster"
+              placeholder="poster url"
+              name="poster"
+              type="url"
+              data-cy="poster_input"
+              validationRules={validationRules.poster}
+            />
+
+            <Button
+              type="submit"
+              colorScheme="blue"
+              data-cy="submit_btn"
+              marginTop={5}
+              onClick={() => setGenres(selectedGenres)}
+            >
+              Add
+            </Button>
+          </Container>
+        </form>
+        {isSubmitSuccessful && !saveError ? (
+          <Alert status="success" data-cy="added_message">
+            <AlertIcon />
+            Movie added successfully!
+            <CloseButton
+              position="absolute"
+              right="8px"
+              top="8px"
+              onClick={onClose}
+            />
+          </Alert>
+        ) : null}
+      </FormProvider>
+
+      <Box>
+        <Error error={saveError}></Error>
+      </Box>
+    </HasAccess>
   );
 }

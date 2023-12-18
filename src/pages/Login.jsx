@@ -22,7 +22,7 @@ export default function Login() {
 
   const methods = useForm({
     defaultValues: {
-      email: "test1@test.com",
+      email: "janadmin@gmail.com",
       password: "verydifficult",
     },
   });
@@ -36,16 +36,16 @@ export default function Login() {
 
   const handleLogin = useCallback(
     async ({ email, password }) => {
-      const loggedIn = await login(email, password); // 👈 2
+      const loggedIn = await login(email, password);
 
       if (loggedIn) {
         navigate({
           pathname: "/",
           replace: true,
         });
-      } // 👈 3
+      }
     },
-    [login, navigate] // 👈 2 en 3
+    [login, navigate]
   );
 
   return (

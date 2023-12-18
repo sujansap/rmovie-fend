@@ -1,13 +1,9 @@
-describe("mijn eerste test", () => {
-  it("draait de applicatie", () => {
-    // 👈 1
+describe("Login", () => {
+  it("should be running", () => {
     cy.visit("http://localhost:5173");
   });
 
-  it(
-    ("should login",
-    () => {
-      cy.login("janadmin@gmail.com", "verydifficult");
-    })
-  );
+  it("should do login", () => {
+    cy.login("janadmin@gmail.com", "verydifficult");
+  });
 });

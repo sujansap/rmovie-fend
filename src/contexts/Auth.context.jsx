@@ -18,15 +18,18 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem(JWT_TOKEN_KEY));
-  const [user, setUser] = useState(localStorage.getItem(USER_ID_KEY));
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem(USER_ID_KEY))
+  );
   const [ready, setReady] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
-  //als alles gerenderd is wordt useEffect() uitgevoerd
+
   useEffect(() => {
     api.setAuthToken(token);
     setIsAuthed(Boolean(token));
+
     setReady(true);
-  }, [token]);
+  }, [token, setUser]);
 
   const {
     isMutating: loginLoading,
@@ -43,8 +46,9 @@ export const AuthProvider = ({ children }) => {
   const setSession = useCallback((token, user) => {
     setToken(token);
     setUser(user);
+
     localStorage.setItem(JWT_TOKEN_KEY, token);
-    localStorage.setItem(USER_ID_KEY, user.userId);
+    localStorage.setItem(USER_ID_KEY, JSON.stringify(user));
   }, []);
 
   const login = useCallback(

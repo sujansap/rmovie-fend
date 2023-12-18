@@ -1,20 +1,15 @@
-import Loader from "./Loader"; // 👈 1
-import Error from "./Error"; // 👈 1
+import Loader from "./Loader";
+import Error from "./Error";
 
-export default function AsyncData({
-  loading, // 👈 2
-  error, // 👈 3
-  children, // 👈 4
-}) {
-  // 👇 2
+export default function AsyncData({ loading, error, children }) {
   if (loading) {
     return <Loader />;
   }
 
   return (
     <>
-      <Error error={error} /> {/* 👈 3 */}
-      {children} {/* 👈 4 */}
+      <Error error={error} />
+      {children}
     </>
   );
 }

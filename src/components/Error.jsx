@@ -1,30 +1,41 @@
 import { isAxiosError } from "axios";
-
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from "@chakra-ui/react";
 export default function Error({ error }) {
   if (isAxiosError(error)) {
     return (
-      <div className="alert alert-danger" data-cy="axios_error_message">
-        <h4 className="alert-heading">Oops, something went wrong</h4>
-        <p>
-          {error.response?.data?.message || error.message}
-          {error.response?.data?.details && (
-            <>
-              :
-              <br />
-              {JSON.stringify(error.response.data.details)}
-            </>
-          )}
-        </p>
-      </div>
+      <>
+        <Alert data-cy="axios_error_message" status="error">
+          <AlertIcon />
+          <AlertTitle>Oops, something went wrong!</AlertTitle>
+          <AlertDescription>
+            {error.response?.data?.message || error.message}
+            {error.response?.data?.details && (
+              <>
+                :
+                <br />
+                {JSON.stringify(error.response.data.details)}
+              </>
+            )}
+          </AlertDescription>
+        </Alert>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="alert alert-danger" data-cy="error_message">
-        <h4 className="alert-heading">An unexpected error occured</h4>
-        {error.message || JSON.stringify(error)}
-      </div>
+      <Alert status="error">
+        <AlertIcon />
+        <AlertTitle>An unexpected error occured</AlertTitle>
+        <AlertDescription>
+          {error.message || JSON.stringify(error)}
+        </AlertDescription>
+      </Alert>
     );
   }
 
