@@ -37,6 +37,7 @@ describe("Movie list", () => {
         error: "Internal server error",
       },
     });
+
     cy.visit("http://localhost:5173");
 
     cy.get("[data-cy=axios_error_message").should("exist");
