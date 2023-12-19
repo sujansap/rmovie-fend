@@ -27,7 +27,11 @@ export default function Login() {
     },
   });
 
-  const { handleSubmit, reset } = methods;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = methods;
 
   const handleLogin = useCallback(
     async ({ email, password }) => {
@@ -70,7 +74,7 @@ export default function Login() {
             <Box mt="3">
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={loading || isSubmitting}
                 bg="blue.500"
                 data-cy="submit_btn"
               >

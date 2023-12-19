@@ -1,14 +1,13 @@
-import { useEffect } from "react"; // 👈 1
-import { useAuth } from "../contexts/Auth.context"; // 👈 1
+import { useEffect } from "react";
+import { useAuth } from "../contexts/Auth.context";
 
 export default function Logout() {
-  const { isAuthed, logout } = useAuth(); // 👈 1
+  const { isAuthed, logout } = useAuth();
 
   useEffect(() => {
     logout();
   }, [logout]);
 
-  // 👇 2
   if (isAuthed) {
     return (
       <div className="row">
@@ -19,7 +18,6 @@ export default function Logout() {
     );
   }
 
-  // 👇 3
   return (
     <div className="row">
       <div className="col-12">
