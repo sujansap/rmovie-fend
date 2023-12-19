@@ -19,7 +19,7 @@ import { save } from "../../api";
 
 import LabelTextarea from "../LabelTextarea";
 import { useNavigate } from "react-router-dom";
-import { mutate } from "swr";
+import { mutate as globalMutate } from "swr";
 import calculateColor from "../CalculateColor";
 
 const validationRules = {
