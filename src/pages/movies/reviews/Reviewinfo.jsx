@@ -31,20 +31,18 @@ const Reviewinfo = () => {
 
   return (
     <>
-      <AsyncData error={deleteError} isLoading={isLoading}>
-        {/*no error from getAll, because don't wanna show error but the form*/}
-        <Box margin={5} padding={5} rounded="md" boxShadow="xl">
-          <SmallNavBar id={id} activeReview={true} />
-          <ReviewDetail
-            mid={id}
-            REVIEW={REVIEW}
-            onDelete={deleteMovie}
-            mutate={mutate}
-            loading={isLoading}
-            error={error}
-          />
-        </Box>
-      </AsyncData>
+      {/*no error from getAll, because don't wanna show error but the form*/}
+      <Box margin={5} padding={5} rounded="md" boxShadow="xl">
+        <SmallNavBar id={id} activeReview={true} />
+        <ReviewDetail
+          mid={id}
+          REVIEW={REVIEW}
+          onDelete={deleteMovie}
+          mutate={mutate}
+          loading={isLoading}
+          error={error}
+        />
+      </Box>
     </>
   );
 };
