@@ -6,15 +6,10 @@ export default function PrivateRoute() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem("your_jwt_token_key");
-
-    if (!checkTokenExpiration(token)) {
-      // Token has expired, perform logout actions
-      console.log("Token has expired. Logging out...");
+    if (!checkTokenExpiration()) {
       logout();
-      // Add your logout logic here
     }
-  }, []); // This effect will run once when the component mounts
+  }, []);
 
   const loginPath = `/login?redirect=${pathname}`;
 

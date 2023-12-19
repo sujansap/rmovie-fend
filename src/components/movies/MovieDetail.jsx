@@ -20,12 +20,6 @@ const MovieDetail = ({
 
   rating = rating >= 0 ? rating : -1;
 
-  /*console.log("logged in user");
-  console.log(userId);
-  console.log("movie added by user");
-  console.log(MOVIE.userId);
-*/
-
   const handleDelete = useCallback(async () => {
     try {
       await onDelete(MOVIE.movieId);

@@ -16,11 +16,14 @@ const Movieinfo = () => {
   const { id } = useParams();
   const { user } = useAuth();
   console.log("LOGGED IN user");
-  console.log(user.userId);
 
   const getFrom = `movies/${id}`;
   console.log("get from is " + getFrom);
-  const { data: MOVIE, isLoadingMovie, errorMovie } = useSWR(getFrom, getById);
+  const {
+    data: MOVIE,
+    isLoading: isLoadingMovie,
+    error: errorMovie,
+  } = useSWR(getFrom, getById);
 
   const { trigger: deleteMovie, error: deleteError } = useSWRMutation(
     "movies",
@@ -30,34 +33,23 @@ const Movieinfo = () => {
   const getRatingFrom = `movies/${id}/rating`;
   const {
     data: avgRating,
-    isLoadingRating,
-    errorRating,
+    isLoading: isLoadingRating,
+    error: errorRating,
   } = useSWR(getRatingFrom, getById);
-
-  if (isLoadingMovie || isLoadingRating) {
-    return (
-      <AsyncData
-        loading={isLoadingMovie || isLoadingRating}
-        error={errorMovie || errorRating}
-      ></AsyncData>
-    );
-  }
 
   return (
     <>
       <Box margin={5} padding={5} rounded="md" boxShadow="xl">
         <SmallNavBar id={id} activeMovie={true} />
         <Box>
-          <AsyncData loading={isLoadingMovie} error={errorMovie}>
-            <MovieDetail
-              MOVIE={MOVIE}
-              avgRating={avgRating}
-              userId={user.userId}
-              onDelete={deleteMovie}
-              loading={isLoadingMovie}
-              error={errorMovie}
-            />
-          </AsyncData>
+          <MovieDetail
+            MOVIE={MOVIE}
+            avgRating={avgRating}
+            userId={user?.userId}
+            onDelete={deleteMovie}
+            loading={isLoadingMovie}
+            error={errorMovie}
+          />
         </Box>
         <Box m={3}>
           <Error error={deleteError}></Error>

@@ -26,7 +26,7 @@ const Reviewinfo = () => {
   );
 
   if (isLoading) {
-    return <AsyncData error={deleteError} isLoading={isLoading}></AsyncData>;
+    return <AsyncData error={error} isLoading={isLoading}></AsyncData>;
   }
 
   return (
