@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ReviewForm } from "./ReviewForm";
 import { Box } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { mutate as globalMutate } from "swr";
+
 import { useEffect } from "react";
 
 const defaultRating = 50;
@@ -28,8 +28,6 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
       console.error("Error deleting review", error);
     }
   }, [onDelete, REVIEW?.reviewId, mutate, mid]);
-
-  useEffect(() => {});
 
   if (REVIEW && Object.keys(REVIEW).length !== 0) {
     const { title, review, rating, poster } = REVIEW;
@@ -57,6 +55,7 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
       </>
     );
   }
+
   return <ReviewForm mid={mid} rating={defaultRating} mutate={mutate} />;
 };
 

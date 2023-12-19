@@ -7,10 +7,12 @@ import {
   Slider,
   SliderFilledTrack,
   SliderTrack,
+  Container,
   Heading,
 } from "@chakra-ui/react";
 import { memo } from "react";
 import calculateColor from "./CalculateColor";
+import Movie from "./movies/Movie";
 export const Detail = memo(({ title, poster, genres, rating, text }) => {
   return (
     <Box
@@ -22,7 +24,13 @@ export const Detail = memo(({ title, poster, genres, rating, text }) => {
       padding={4}
       margin={5}
     >
-      <Box padding={4} m={3} rounded="md" boxShadow="xl" p="2">
+      <Box
+        padding={4}
+        m={3}
+        rounded="md"
+        p="2"
+        maxHeight="100%" // Set maxHeight to 100% to allow it to adjust based on the content
+      >
         <Image src={poster} alt="Movie Poster" />
         <Heading align="center">{title}</Heading>
         <Box>
@@ -49,23 +57,22 @@ export const Detail = memo(({ title, poster, genres, rating, text }) => {
         </Slider>
       </Box>
 
-      <Flex
-        direction="column"
-        align="left"
+      <Container
+        data-cy="movie_detail_title"
         padding={4}
+        //maxWidth={{ base: "100%", md: "100%", lg: "50%" }} // Set the maximum width
         borderWidth="1px"
         rounded="md"
-        boxShadow="xl"
+        //boxShadow="xl"
+
+        maxWidth="100%"
       >
-        <Text
-          data-cy="movie_detail_title"
-          fontSize={{ base: "md", md: "md" }}
-          maxHeight={{ base: "500", md: "500", lg: "600" }}
-          overflow="auto"
-        >
-          {text}
-        </Text>
-      </Flex>
+        <Box maxHeight="100%">
+          {" "}
+          {/* Add maxHeight and overflowY to enable vertical scrolling */}
+          <Text>{text}</Text>
+        </Box>
+      </Container>
     </Box>
   );
 });

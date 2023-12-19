@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { ChakraProvider, Box } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 //import './index.css'
 import {
   Navigate,
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { ColorModeScript } from "@chakra-ui/react";
+
 import theme from "./components/Theme";
 
 import { AuthProvider } from "./contexts/Auth.context.jsx";
@@ -36,6 +36,20 @@ const router = createBrowserRouter([
         element: <Navigate replace to="/movies" />,
       },
       {
+        path: "/login",
+
+        element: <Login />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+
+      {
         path: "/movies",
         element: <PrivateRoute />,
         children: [
@@ -59,11 +73,6 @@ const router = createBrowserRouter([
             path: "add",
             element: <AddMovie />,
           },
-
-          {
-            path: "edit/:id",
-            element: <AddMovie />,
-          },
         ],
       },
       {
@@ -77,20 +86,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/login",
-
-        element: <Login />,
-      },
-      {
-        path: "/register",
-
-        element: <Register />,
-      },
-      {
-        path: "/logout",
-        element: <Logout />,
-      },
-      {
         path: "*",
         element: <NotFound />,
       },
@@ -102,8 +97,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
       <ChakraProvider theme={theme}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-
         <RouterProvider router={router} />
       </ChakraProvider>
     </AuthProvider>

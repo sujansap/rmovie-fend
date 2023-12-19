@@ -20,6 +20,29 @@ describe("Movie info", () => {
     cy.get("[data-cy=movie_rating]").should("contain", "n/a");
   });
 
+  it("should delete the movie if it's made by the one who wants to delete", () => {
+    cy.intercept("GET", "http://localhost:9000/api/movies/41", {
+      fixture: "movie_details.json",
+    });
+
+    cy.intercept("GET", "http://localhost:9000/api/movies/41/rating", {
+      fixture: "movie_rating.json",
+    });
+
+    cy.visit("http://localhost:5173/movies/41");
+
+    cy.get("[data-cy=movie_detail]").should("contain", "The Great Movie");
+    cy.get("[data-cy=movie_rating]").should("contain", "n/a");
+
+    cy.intercept("DELETE", "http://localhost:9000/api/movies/41", {
+      statusCode: 204,
+      body: {},
+    });
+
+    cy.get("[data-cy=movie_delete_btn]").click();
+    cy.get("[data-cy=movie]").should("be.visible");
+  });
+
   it("should be able to see review form if there is no review", () => {
     //movies/${id}/review`
     cy.intercept("GET", "http://localhost:9000/api/movies/41/review", {
@@ -53,7 +76,7 @@ describe("Movie info", () => {
     });
   });
 
-  it("should be able to see review if there is one, then go to other user to see if other which review it shows", () => {
+  it("should be able to see review if there is one, then go to other user who hasn't made a review to see if review form is shown", () => {
     cy.intercept("GET", "http://localhost:9000/api/movies/41/review", {
       fixture: "review.json",
     }).as("getReview");

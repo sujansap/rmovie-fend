@@ -4,8 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useCallback } from "react";
 import HasAccess from "../HasAcces";
+import AsyncData from "../AsyncData";
 
-const MovieDetail = ({ MOVIE, avgRating, userId, onDelete }) => {
+const MovieDetail = ({
+  MOVIE,
+  avgRating,
+  userId,
+  onDelete,
+  loading,
+  error,
+}) => {
   const navigate = useNavigate();
 
   let rating = avgRating?.rating;
@@ -17,6 +25,7 @@ const MovieDetail = ({ MOVIE, avgRating, userId, onDelete }) => {
   console.log("movie added by user");
   console.log(MOVIE.userId);
 */
+
   const handleDelete = useCallback(async () => {
     try {
       await onDelete(MOVIE.movieId);
@@ -29,24 +38,26 @@ const MovieDetail = ({ MOVIE, avgRating, userId, onDelete }) => {
 
   return (
     <>
-      <Detail
-        title={MOVIE?.title}
-        poster={MOVIE?.poster}
-        rating={rating}
-        genres={MOVIE?.genreMovies || []}
-        text={MOVIE?.synopsis}
-      />
-      <HasAccess>
-        {MOVIE?.userId === userId ? (
-          <Box display="flex" alignItems="center">
-            <Box ml={3} mr={2} />
+      <AsyncData loading={loading} error={error}>
+        <Detail
+          title={MOVIE?.title}
+          poster={MOVIE?.poster}
+          rating={rating}
+          genres={MOVIE?.genreMovies || []}
+          text={MOVIE?.synopsis}
+        />
+        <HasAccess>
+          {MOVIE?.userId === userId ? (
+            <Box display="flex" alignItems="center">
+              <Box ml={3} mr={2} />
 
-            <Link>
-              <DeleteIcon onClick={handleDelete} data-cy="review_delete_btn" />
-            </Link>
-          </Box>
-        ) : null}
-      </HasAccess>
+              <Link>
+                <DeleteIcon onClick={handleDelete} data-cy="movie_delete_btn" />
+              </Link>
+            </Box>
+          ) : null}
+        </HasAccess>
+      </AsyncData>
     </>
   );
 };

@@ -23,6 +23,7 @@ describe("Movie list", () => {
         res.setDelay(1000);
       });
     }).as("slowResponse");
+
     cy.visit("http://localhost:5173");
     cy.get("[data-cy=loader]").should("be.visible");
     cy.wait("@slowResponse");

@@ -19,7 +19,7 @@ import { save } from "../../api";
 
 import LabelTextarea from "../LabelTextarea";
 import { useNavigate } from "react-router-dom";
-import { mutate as globalMutate } from "swr";
+import { mutate } from "swr";
 import calculateColor from "../CalculateColor";
 
 const validationRules = {
@@ -114,7 +114,10 @@ export const ReviewForm = ({ mid, REVIEW, mutate }) => {
   );
 
   useEffect(() => {
-    if (REVIEW) {
+    if (
+      REVIEW &&
+      (Object.keys(REVIEW).length !== 0 || REVIEW.constructor !== Object)
+    ) {
       //console.log("the movie already has a review show that" + reviewText);
       setValue("reviewText", REVIEW?.review);
       setValue("rating", REVIEW?.rating);

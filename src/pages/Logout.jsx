@@ -4,7 +4,6 @@ import { useAuth } from "../contexts/Auth.context"; // 👈 1
 export default function Logout() {
   const { isAuthed, logout } = useAuth(); // 👈 1
 
-  // 👇 1
   useEffect(() => {
     logout();
   }, [logout]);

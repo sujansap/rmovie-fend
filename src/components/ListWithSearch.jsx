@@ -1,8 +1,9 @@
 import { Box, Text, Input, Button } from "@chakra-ui/react";
 
 import { useState, useMemo } from "react";
+import AsyncData from "./AsyncData";
 import List from "./List";
-const ListWithSearch = ({ MOVIES, linkToReview }) => {
+const ListWithSearch = ({ MOVIES, linkToReview, loading, error }) => {
   const [text, setText] = useState("");
   const [search, setSearch] = useState("");
   const filteredMovies = useMemo(
@@ -12,14 +13,6 @@ const ListWithSearch = ({ MOVIES, linkToReview }) => {
       }),
     [search, MOVIES]
   );
-
-  if (MOVIES.length === 0) {
-    return (
-      <Box margin={5} padding={5} rounded="md" boxShadow="xl">
-        <Text>nothing here yet!</Text>
-      </Box>
-    );
-  }
 
   return (
     <>
@@ -44,7 +37,9 @@ const ListWithSearch = ({ MOVIES, linkToReview }) => {
             Search
           </Button>
         </Box>
-        <List MOVIES={filteredMovies} linkToReview={linkToReview} />
+        <AsyncData loading={loading} error={error}>
+          <List MOVIES={filteredMovies} linkToReview={linkToReview} />
+        </AsyncData>
       </Box>
     </>
   );

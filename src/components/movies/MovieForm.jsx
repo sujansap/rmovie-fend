@@ -25,6 +25,8 @@ import LabelInput from "../LabelInput";
 import { useCallback } from "react";
 import LabelTextarea from "../LabelTextarea";
 import Error from "../Error";
+import AsyncData from "../AsyncData";
+
 const validationRules = {
   title: {
     required: "Movie title is required",
@@ -130,14 +132,13 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
     </FormControl>
   );
 };
+
 export default function MovieForm() {
   const {
     data: GENRES_DATA = [],
     isLoading,
-    error,
+    error: genreGetError,
   } = useSWR("movies/genres", getAll);
-  console.log("test");
-  console.log(GENRES_DATA);
 
   const genres = GENRES_DATA.map((item) => item.genre);
   console.log(genres);
@@ -145,6 +146,10 @@ export default function MovieForm() {
     "movies",
     save
   );
+
+  if (genreGetError) {
+    return <AsyncData error={genreGetError}></AsyncData>;
+  }
 
   const methods = useForm();
   const {
@@ -155,8 +160,6 @@ export default function MovieForm() {
   } = methods;
 
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [genreValue, setGenreValue] = useState("");
 
   const setGenres = (genres) => {
     setValue("genre", genres);
@@ -165,24 +168,25 @@ export default function MovieForm() {
   //const hasError = "synopsis" in errors;
 
   console.log("rendering movie form...");
-  const onSubmit = async (data) => {
-    const { title, synopsis, poster } = data;
+  const onSubmit = useCallback(
+    async (data) => {
+      const { title, synopsis, poster } = data;
 
-    console.log(data);
+      console.log("the genres are");
+      console.log(selectedGenres);
 
-    try {
       await saveMovie({
         title,
         synopsis,
         poster,
         genres: selectedGenres,
       });
-    } catch (error) {
-      console.log("you are not supposed to");
-    }
-    setSelectedGenres([]);
-    reset();
-  };
+
+      setSelectedGenres([]);
+      reset();
+    },
+    [saveMovie, setSelectedGenres, selectedGenres]
+  );
 
   const onClose = () => {
     methods.reset({ isSubmitSuccessful: false });
@@ -219,10 +223,6 @@ export default function MovieForm() {
             <InputGenre
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              genreValue={genreValue}
-              setGenreValue={setGenreValue}
             />
 
             <LabelInput

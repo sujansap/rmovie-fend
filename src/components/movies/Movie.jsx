@@ -10,6 +10,7 @@ const Movie = ({ userID, title, link, movieID, linkToReview }) => {
         <Box style={{ objectFit: "cover", width: "100%", height: "100%" }}>
           <Link to={`/movies/${movieID}${linkToReview ? "/review" : ""}`}>
             <Image
+              loading="lazy"
               data-cy="movie_image"
               src={link}
               alt={`poster of the movie ${title}`}

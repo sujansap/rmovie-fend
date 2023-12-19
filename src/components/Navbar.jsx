@@ -5,6 +5,8 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 import { useAuth } from "../contexts/Auth.context";
 import HasAccess from "./HasAcces";
+
+import { useEffect } from "react";
 const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -20,7 +22,7 @@ const ThemeToggle = () => {
 };
 
 export default function Navbar() {
-  const { isAuthed, isAdmin, user } = useAuth();
+  const { isAuthed } = useAuth();
 
   return (
     <Flex m={5} minWidth="max-content" alignItems="center" gap="1">

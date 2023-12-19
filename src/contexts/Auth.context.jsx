@@ -11,7 +11,7 @@ import * as api from "../api";
 
 const JWT_TOKEN_KEY = "jwtToken";
 const USER_ID_KEY = "userId";
-
+import { useSWRConfig } from "swr";
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -21,15 +21,18 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem(USER_ID_KEY))
   );
+
   const [ready, setReady] = useState(false);
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(Boolean(token));
+
+  const { mutate } = useSWRConfig();
+  const clearCache = () => mutate(() => true, undefined, { revalidate: false });
 
   useEffect(() => {
+    setReady(true);
     api.setAuthToken(token);
     setIsAuthed(Boolean(token));
-
-    setReady(true);
-  }, [token, setUser]);
+  }, [token]);
 
   const {
     isMutating: loginLoading,
@@ -61,6 +64,8 @@ export const AuthProvider = ({ children }) => {
 
         setSession(token, user);
 
+        clearCache();
+
         return true;
       } catch (error) {
         console.error(error);
@@ -87,6 +92,8 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(() => {
     setToken(null);
     setUser(null);
+
+    clearCache();
 
     localStorage.removeItem(JWT_TOKEN_KEY);
     localStorage.removeItem(USER_ID_KEY);
