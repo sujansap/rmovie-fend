@@ -13,6 +13,7 @@ const JWT_TOKEN_KEY = "jwtToken";
 const USER_ID_KEY = "userId";
 import { useSWRConfig } from "swr";
 const AuthContext = createContext();
+import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -99,6 +100,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem(USER_ID_KEY);
   }, []);
 
+  const checkTokenExpiration = () => {
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+
+      console.log(decodedToken.exp);
+      console.log(Number(currentTime));
+      console.log(decodedToken.exp > currentTime);
+
+      return Number(decodedToken.exp) > Number(currentTime);
+    }
+
+    return false; // No token or invalid token
+  };
+
   const value = useMemo(
     () => ({
       token,
@@ -110,6 +126,7 @@ export const AuthProvider = ({ children }) => {
       login,
       logout,
       register,
+      checkTokenExpiration,
     }),
     [
       token,
@@ -123,6 +140,7 @@ export const AuthProvider = ({ children }) => {
       login,
       logout,
       register,
+      checkTokenExpiration,
     ]
   );
 

@@ -147,10 +147,6 @@ export default function MovieForm() {
     save
   );
 
-  if (genreGetError) {
-    return <AsyncData error={genreGetError}></AsyncData>;
-  }
-
   const methods = useForm();
   const {
     reset,
@@ -194,6 +190,7 @@ export default function MovieForm() {
 
   return (
     <HasAccess>
+      <Error error={genreGetError} />
       <FormProvider {...methods} genres={genres}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Container

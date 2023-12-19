@@ -5,7 +5,23 @@ import {
   AlertTitle,
   AlertDescription,
 } from "@chakra-ui/react";
+
+import { useAuth } from "../contexts/Auth.context";
+import { useEffect } from "react";
+
 export default function Error({ error }) {
+  const { logout, checkTokenExpiration } = useAuth();
+
+  useEffect(() => {
+    if (error) {
+      if (error?.response?.data?.message.startsWith("jwt expired")) {
+        if (!checkTokenExpiration()) {
+          logout();
+        }
+      }
+    }
+  });
+
   if (isAxiosError(error)) {
     return (
       <>
