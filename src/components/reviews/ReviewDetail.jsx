@@ -7,26 +7,13 @@ import { ReviewForm } from "./ReviewForm";
 import { Box } from "@chakra-ui/react";
 import { useCallback } from "react";
 
-import { useEffect } from "react";
-import AsyncData from "../AsyncData";
-
 const defaultRating = 50;
 
 const ReviewDetail = ({ mid, REVIEW, onDelete, mutate, error, loading }) => {
   const handleDelete = useCallback(async () => {
-    try {
-      await onDelete(REVIEW?.reviewId);
-      if (mutate) {
-        mutate(""); //mid
-
-        /*globalMutate(`/api/movies/${mid}/rating`, undefined, {
-          revalidateOnMount: true,
-          shouldRetryOnError: true,
-        });*/
-        //mutate(ratingKey, undefined, { revalidate: 1 });
-      }
-    } catch (error) {
-      console.error("Error deleting review", error);
+    await onDelete(REVIEW?.reviewId);
+    if (mutate) {
+      mutate(""); //mid
     }
   }, [onDelete, REVIEW?.reviewId, mutate, mid]);
 
@@ -34,15 +21,14 @@ const ReviewDetail = ({ mid, REVIEW, onDelete, mutate, error, loading }) => {
     const { title, review, rating, poster } = REVIEW;
     return (
       <>
-        <AsyncData error={error} loading={loading}>
-          <Detail
-            title={title}
-            poster={poster}
-            rating={rating}
-            genres={[]}
-            text={review}
-          />
-        </AsyncData>
+        <Detail
+          title={title}
+          poster={poster}
+          rating={rating}
+          genres={[]}
+          text={review}
+        />
+
         <Box display="flex" alignItems="center">
           <Link to={`/movies/${mid}/review/edit`}>
             <EditIcon />

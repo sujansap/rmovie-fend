@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/Auth.context";
 import HasAccess from "./HasAcces";
 
 import { useEffect } from "react";
+
 const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 

@@ -133,13 +133,7 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
   );
 };
 
-export default function MovieForm() {
-  const {
-    data: GENRES_DATA = [],
-    isLoading,
-    error: genreGetError,
-  } = useSWR("movies/genres", getAll);
-
+export default function MovieForm({ GENRES_DATA, genreGetError }) {
   const genres = GENRES_DATA.map((item) => item.genre);
   console.log(genres);
   const { trigger: saveMovie, error: saveError } = useSWRMutation(
@@ -190,7 +184,6 @@ export default function MovieForm() {
 
   return (
     <HasAccess>
-      <Error error={genreGetError} />
       <FormProvider {...methods} genres={genres}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Container

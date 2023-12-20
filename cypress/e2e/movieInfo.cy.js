@@ -95,4 +95,22 @@ describe("Movie info", () => {
     cy.visit("http://localhost:5173/movies/41/review");
     cy.get("[data-cy=review_input]").should("be.visible");
   });
+
+  it("should show a loading indicator for a very slow response", () => {
+    cy.intercept("GET", "http://localhost:9000/api/movies/41/review", {
+      fixture: "review.json",
+    }).as("getReview");
+
+    cy.intercept("http://localhost:9000/api/movies/41/review", (req) => {
+      req.on("response", (res) => {
+        res.setDelay(1000);
+      });
+    }).as("slowResponse");
+
+    cy.visit("http://localhost:5173/movies/41/review");
+    cy.get("[data-cy=loader]").should("be.visible");
+    cy.wait("@slowResponse");
+    cy.wait("@getReview");
+    cy.get("[data-cy=loader]").should("not.exist");
+  });
 });

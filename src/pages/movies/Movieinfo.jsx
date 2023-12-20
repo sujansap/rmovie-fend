@@ -3,15 +3,14 @@ import { Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import useSWR from "swr";
-import { getAll, deleteById, getById } from "../../api";
-import AsyncData from "../../components/AsyncData";
+import { deleteById, getById } from "../../api";
 
 import MovieDetail from "../../components/movies/MovieDetail";
 import SmallNavBar from "../../components/SmallNavBar";
 import { useAuth } from "../../contexts/Auth.context";
 import useSWRMutation from "swr/mutation";
 import Error from "../../components/Error";
-import Movie from "../../components/movies/Movie";
+
 const Movieinfo = () => {
   const { id } = useParams();
   const { user } = useAuth();
