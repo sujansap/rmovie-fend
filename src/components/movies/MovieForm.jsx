@@ -48,21 +48,21 @@ const validationRules = {
 };
 
 //For genre
-const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
+const InputGenre = ({ selectedGenres, setSelectedGenres, validGenres }) => {
   const {
     setError,
     setValue,
     getValues,
-    genres,
     formState: { errors, isSubmitting },
   } = useFormContext();
 
-  console.log(genres);
   const handelGenreEnter = useCallback(
     (event) => {
       const rawGenre = getValues("genre");
+
       console.log("genre: &&&" + rawGenre);
-      const genre = rawGenre.trim().toLowerCase();
+
+      const genre = !rawGenre || rawGenre.trim().toLowerCase();
 
       if (event.key === "Enter" && genre !== "") {
         // blokeer submit bij enter
@@ -72,7 +72,8 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
             type: "manual",
             message: "Genre must have a minimum length of 1 character",
           });
-        } else if (!genres.includes(genre)) {
+        } else if (!validGenres.includes(genre)) {
+          console.log(validGenres);
           setError("genre", {
             type: "manual",
             message: "This is not a valid genre!",
@@ -139,8 +140,9 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
 export default function MovieForm({ GENRES_DATA }) {
   const { language } = useLanguage();
 
-  const genres = GENRES_DATA.map((item) => item.genre);
-  console.log(genres);
+  const validGenres = GENRES_DATA.map((item) => item.genre);
+
+  //console.log(genres);
   const { trigger: saveMovie, error: saveError } = useSWRMutation(
     "movies",
     save
@@ -156,29 +158,26 @@ export default function MovieForm({ GENRES_DATA }) {
 
   const [selectedGenres, setSelectedGenres] = useState([]);
 
-  const setGenres = (genres) => {
-    setValue("genre", genres);
+  const setGenres = () => {
+    setValue("genre", selectedGenres);
   };
 
-  //const hasError = "synopsis" in errors;
-
-  console.log("rendering movie form...");
   const onSubmit = useCallback(
     async (data) => {
       const { title, synopsis, poster } = data;
+      try {
+        await saveMovie({
+          title,
+          synopsis,
+          poster,
+          genres: selectedGenres,
+        });
 
-      console.log("the genres are");
-      console.log(selectedGenres);
-
-      await saveMovie({
-        title,
-        synopsis,
-        poster,
-        genres: selectedGenres,
-      });
-
-      setSelectedGenres([]);
-      reset();
+        setSelectedGenres([]);
+        reset();
+      } catch (error) {
+        console.log("error, while saving movie");
+      }
     },
     [saveMovie, setSelectedGenres, selectedGenres]
   );
@@ -189,7 +188,7 @@ export default function MovieForm({ GENRES_DATA }) {
 
   return (
     <HasAccess>
-      <FormProvider {...methods} genres={genres}>
+      <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Container
             margin={5}
@@ -218,6 +217,7 @@ export default function MovieForm({ GENRES_DATA }) {
             <InputGenre
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
+              validGenres={validGenres}
             />
 
             <LabelInput
@@ -234,7 +234,7 @@ export default function MovieForm({ GENRES_DATA }) {
               colorScheme="blue"
               data-cy="submit_btn"
               marginTop={5}
-              onClick={() => setGenres(selectedGenres)}
+              onClick={setGenres}
             >
               Add
             </Button>

@@ -11,6 +11,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "../contexts/Language.context";
 
 import translations from "../translation/translation";
+import { useCallback } from "react";
 
 const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -38,9 +39,12 @@ export default function Navbar() {
     return language === "nl" ? "blue.500" : "";
   }, [language]);
 
-  const handelChangeLanguage = (lang) => {
-    changeLanguage(lang);
-  };
+  const handelChangeLanguage = useCallback(
+    (lang) => {
+      changeLanguage(lang);
+    },
+    [changeLanguage]
+  );
 
   return (
     <Flex m={5} minWidth="max-content" alignItems="center" gap="1">
