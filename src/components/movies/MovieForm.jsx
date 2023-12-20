@@ -18,14 +18,15 @@ import HasAccess from "../HasAcces";
 import useSWRMutation from "swr/mutation";
 import { save } from "../../api";
 
-import useSWR from "swr";
-import { getAll } from "../../api";
+import { useLanguage } from "../../contexts/Language.context";
+
+import translations from "../../translation/translation";
+
 import LabelInput from "../LabelInput";
 
 import { useCallback } from "react";
 import LabelTextarea from "../LabelTextarea";
 import Error from "../Error";
-import AsyncData from "../AsyncData";
 
 const validationRules = {
   title: {
@@ -57,41 +58,43 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
   } = useFormContext();
 
   console.log(genres);
-  const handelGenreEnter = (event) => {
-    const rawGenre = getValues("genre");
-    console.log("genre: &&&" + rawGenre);
-    const genre = rawGenre.trim().toLowerCase();
+  const handelGenreEnter = useCallback(
+    (event) => {
+      const rawGenre = getValues("genre");
+      console.log("genre: &&&" + rawGenre);
+      const genre = rawGenre.trim().toLowerCase();
 
-    console.log(`genre ain't doing nothing: ${rawGenre}`);
-    if (event.key === "Enter" && genre !== "") {
-      // blokeer submit bij enter
-      event.preventDefault();
-      if (genre.length < 2) {
-        setError("genre", {
-          type: "manual",
-          message: "Genre must have a minimum length of 1 character",
-        });
-      } else if (!genres.includes(genre)) {
-        setError("genre", {
-          type: "manual",
-          message: "This is not a valid genre!",
-        });
-      } else {
-        if (!selectedGenres.includes(genre)) {
-          //de latest input of the user is a valid one, thus remove the error
-          setError("genre", {});
-          setSelectedGenres([...selectedGenres, genre]);
-          setValue("genre", "");
-          //make the input field empty agian
-        } else {
+      if (event.key === "Enter" && genre !== "") {
+        // blokeer submit bij enter
+        event.preventDefault();
+        if (genre.length < 2) {
           setError("genre", {
             type: "manual",
-            message: "You have already added this!",
+            message: "Genre must have a minimum length of 1 character",
           });
+        } else if (!genres.includes(genre)) {
+          setError("genre", {
+            type: "manual",
+            message: "This is not a valid genre!",
+          });
+        } else {
+          if (!selectedGenres.includes(genre)) {
+            //de latest input of the user is a valid one, thus remove the error
+            setError("genre", {});
+            setSelectedGenres([...selectedGenres, genre]);
+            setValue("genre", "");
+            //make the input field empty agian
+          } else {
+            setError("genre", {
+              type: "manual",
+              message: "You have already added this!",
+            });
+          }
         }
       }
-    }
-  };
+    },
+    [selectedGenres]
+  );
 
   const removeGenre = useCallback(
     (genre) => {
@@ -133,7 +136,9 @@ const InputGenre = ({ selectedGenres, setSelectedGenres }) => {
   );
 };
 
-export default function MovieForm({ GENRES_DATA, genreGetError }) {
+export default function MovieForm({ GENRES_DATA }) {
+  const { language } = useLanguage();
+
   const genres = GENRES_DATA.map((item) => item.genre);
   console.log(genres);
   const { trigger: saveMovie, error: saveError } = useSWRMutation(
@@ -235,6 +240,7 @@ export default function MovieForm({ GENRES_DATA, genreGetError }) {
             </Button>
           </Container>
         </form>
+        {language === "nl" ? "*" + translations[language].notTranslated : ""}
         {isSubmitSuccessful && !saveError ? (
           <Alert status="success" data-cy="added_message">
             <AlertIcon />

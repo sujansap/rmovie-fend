@@ -5,18 +5,13 @@ import LabelInput from "../components/LabelInput";
 import { useAuth } from "../contexts/Auth.context";
 import Error from "../components/Error";
 import { useNavigate } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
-const validationRules = {
-  email: {
-    required: "Email is required",
-  },
-  password: {
-    required: "Password is required",
-  },
-};
+import { useLanguage } from "../contexts/Language.context";
+import translations from "../translation/translation";
 
 export default function Login() {
+  const { language } = useLanguage();
   const { error, loading, login } = useAuth();
   const navigate = useNavigate();
 
@@ -26,6 +21,21 @@ export default function Login() {
       password: "verydifficult",
     },
   });
+
+  const validationRules = useMemo(
+    () => ({
+      email: {
+        required: "Email " + translations[language].isRequired,
+      },
+      password: {
+        required:
+          translations[language].password +
+          " " +
+          translations[language].isRequired,
+      },
+    }),
+    []
+  );
 
   const {
     handleSubmit,
@@ -65,7 +75,7 @@ export default function Login() {
             />
 
             <LabelInput
-              label="password"
+              label={translations[language].password}
               type="password"
               name="password"
               data-cy="password_input"

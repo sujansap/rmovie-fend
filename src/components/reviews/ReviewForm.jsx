@@ -21,6 +21,8 @@ import LabelTextarea from "../LabelTextarea";
 import { useNavigate } from "react-router-dom";
 import { mutate as globalMutate } from "swr";
 import calculateColor from "../CalculateColor";
+import { useLanguage } from "../../contexts/Language.context";
+import translations from "../../translation/translation";
 
 const validationRules = {
   reviewText: {
@@ -35,8 +37,6 @@ const validationRules = {
 };
 
 const RatingSlider = memo(({ firstValue }) => {
-  console.log("the value that the slider comp gets is: " + firstValue);
-
   const [sliderValue, setSliderValue] = useState(firstValue);
 
   const {
@@ -78,6 +78,8 @@ const RatingSlider = memo(({ firstValue }) => {
 export const ReviewForm = ({ mid, REVIEW, mutate }) => {
   const navigate = useNavigate();
 
+  const { language } = useLanguage();
+
   const methods = useForm();
   const {
     reset,
@@ -118,13 +120,11 @@ export const ReviewForm = ({ mid, REVIEW, mutate }) => {
       REVIEW &&
       (Object.keys(REVIEW).length !== 0 || REVIEW.constructor !== Object)
     ) {
-      //console.log("the movie already has a review show that" + reviewText);
       setValue("reviewText", REVIEW?.review);
       setValue("rating", REVIEW?.rating);
     }
   });
 
-  console.log("the first value after change is: ");
   return (
     <>
       <Error error={saveError} />
@@ -158,6 +158,7 @@ export const ReviewForm = ({ mid, REVIEW, mutate }) => {
             </Button>
           </Box>
         </form>
+        {language === "nl" ? "*" + translations[language].notTranslated : ""}
       </FormProvider>
     </>
   );

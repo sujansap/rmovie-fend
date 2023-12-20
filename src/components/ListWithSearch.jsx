@@ -3,9 +3,14 @@ import { Box, Text, Input, Button } from "@chakra-ui/react";
 import { useState, useMemo } from "react";
 import AsyncData from "./AsyncData";
 import List from "./List";
+
+import { useLanguage } from "../contexts/Language.context";
+
+import translations from "../translation/translation";
 const ListWithSearch = ({ MOVIES, linkToReview, loading, error }) => {
   const [text, setText] = useState("");
   const [search, setSearch] = useState("");
+  const { language } = useLanguage();
   const filteredMovies = useMemo(
     () =>
       MOVIES.filter((movie) => {
@@ -21,7 +26,7 @@ const ListWithSearch = ({ MOVIES, linkToReview, loading, error }) => {
           <Input
             type="search"
             id="search"
-            placeholder="Search"
+            placeholder={translations[language].search}
             value={text}
             onChange={(e) => setText(e.target.value)}
             data-cy="movies_search_input"
@@ -34,7 +39,7 @@ const ListWithSearch = ({ MOVIES, linkToReview, loading, error }) => {
             data-cy="movies_search_btn"
             marginLeft={2}
           >
-            Search
+            {translations[language].search}
           </Button>
         </Box>
         <AsyncData loading={loading} error={error}>

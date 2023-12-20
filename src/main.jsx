@@ -12,6 +12,7 @@ import {
 import theme from "./components/Theme";
 
 import { AuthProvider } from "./contexts/Auth.context.jsx";
+import { LanguageProvider } from "./contexts/Language.context";
 
 import AddMovie from "./pages/movies/AddMovie.jsx";
 
@@ -96,9 +97,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ChakraProvider>
+      <LanguageProvider>
+        <ChakraProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ChakraProvider>
+      </LanguageProvider>
     </AuthProvider>
   </React.StrictMode>
 );
