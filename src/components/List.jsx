@@ -2,11 +2,11 @@ import { Box, Text, Input, Button } from "@chakra-ui/react";
 import Movie from "./movies/Movie";
 import { memo } from "react";
 
-const List = ({ MOVIES, linkToReview }) => {
+const List = ({ MOVIES, linkToReview, emptyMessage }) => {
   if (MOVIES.length === 0) {
     return (
       <Box margin={5} padding={5} rounded="md" boxShadow="xl">
-        <Text>nothing here yet!</Text>
+        <Text>{emptyMessage}</Text>
       </Box>
     );
   }
@@ -27,11 +27,9 @@ const List = ({ MOVIES, linkToReview }) => {
         {MOVIES.map((movie) => (
           <Movie
             title={movie.title}
-            genre={movie.genre}
             link={movie.poster}
             movieID={movie.movieId}
             key={movie.movieId}
-            userID={movie.userId}
             linkToReview={linkToReview}
           />
         ))}

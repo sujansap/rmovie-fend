@@ -14,10 +14,9 @@ import Error from "../../components/Error";
 const Movieinfo = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  console.log("LOGGED IN user");
 
   const getFrom = `movies/${id}`;
-  console.log("get from is " + getFrom);
+
   const {
     data: MOVIE,
     isLoading: isLoadingMovie,
@@ -46,8 +45,8 @@ const Movieinfo = () => {
             avgRating={avgRating}
             userId={user?.userId}
             onDelete={deleteMovie}
-            loading={isLoadingMovie}
-            error={errorMovie}
+            loading={isLoadingMovie || isLoadingRating}
+            error={errorMovie || errorRating}
           />
         </Box>
         <Box m={3}>

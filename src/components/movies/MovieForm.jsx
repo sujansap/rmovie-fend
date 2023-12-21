@@ -48,7 +48,7 @@ const validationRules = {
 };
 
 //For genre
-const InputGenre = ({ selectedGenres, setSelectedGenres, validGenres }) => {
+const InputGenre = ({ selectedGenres, setSelectedGenres, GENRES }) => {
   const {
     setError,
     setValue,
@@ -56,14 +56,15 @@ const InputGenre = ({ selectedGenres, setSelectedGenres, validGenres }) => {
     formState: { errors, isSubmitting },
   } = useFormContext();
 
+  const validGenres = GENRES.map((item) => item.genre);
+
   const handelGenreEnter = useCallback(
     (event) => {
       const rawGenre = getValues("genre");
 
-      console.log("genre: &&&" + rawGenre);
+      const genre = !rawGenre || rawGenre.toLowerCase();
 
-      const genre = !rawGenre || rawGenre.trim().toLowerCase();
-
+      //genre = rawGenre.trim();
       if (event.key === "Enter" && genre !== "") {
         // blokeer submit bij enter
         event.preventDefault();
@@ -73,7 +74,6 @@ const InputGenre = ({ selectedGenres, setSelectedGenres, validGenres }) => {
             message: "Genre must have a minimum length of 1 character",
           });
         } else if (!validGenres.includes(genre)) {
-          console.log(validGenres);
           setError("genre", {
             type: "manual",
             message: "This is not a valid genre!",
@@ -140,9 +140,6 @@ const InputGenre = ({ selectedGenres, setSelectedGenres, validGenres }) => {
 export default function MovieForm({ GENRES_DATA }) {
   const { language } = useLanguage();
 
-  const validGenres = GENRES_DATA.map((item) => item.genre);
-
-  //console.log(genres);
   const { trigger: saveMovie, error: saveError } = useSWRMutation(
     "movies",
     save
@@ -217,7 +214,7 @@ export default function MovieForm({ GENRES_DATA }) {
             <InputGenre
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
-              validGenres={validGenres}
+              GENRES={GENRES_DATA}
             />
 
             <LabelInput

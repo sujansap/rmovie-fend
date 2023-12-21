@@ -103,11 +103,7 @@ export const AuthProvider = ({ children }) => {
   const checkTokenExpiration = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
-
-      console.log(decodedToken.exp);
-      console.log(Number(currentTime));
-      console.log(decodedToken.exp > currentTime);
+      const currentTime = Date.now() / 1000;
 
       return Number(decodedToken.exp) > Number(currentTime);
     }

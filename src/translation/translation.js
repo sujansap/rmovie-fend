@@ -17,6 +17,7 @@ const translations = {
     passDonotMatch: "Password do not match",
     search: "Search",
     notTranslated: "English version is not avaliable",
+    emptyList: "nothing here yet!",
   },
   nl: {
     reviews: "Beoordelingen",
@@ -36,6 +37,7 @@ const translations = {
     passDonotMatch: "Wachtwoorden komen niet overeen",
     search: "Zoek",
     notTranslated: "Nederlandse versie is niet bescikbaar hier",
+    emptyList: "nog niets hier!",
   },
 };
 

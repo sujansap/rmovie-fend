@@ -7,7 +7,7 @@ import ReviewDetail from "../../../components/reviews/ReviewDetail";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import AsyncData from "../../../components/AsyncData";
-import { getAll, deleteById, getById } from "../../../api/index";
+import { deleteById, getById } from "../../../api/index";
 
 const Reviewinfo = () => {
   const { id } = useParams();
@@ -24,14 +24,10 @@ const Reviewinfo = () => {
     "reviews",
     deleteById
   );
-  /*
-  if (isLoading) {
-    return <AsyncData error={error} isLoading={isLoading}></AsyncData>;
-  }
-*/
+
   return (
     <>
-      {/*no error from getAll, because don't wanna show error but the form*/}
+      {}
 
       <Box margin={5} padding={5} rounded="md" boxShadow="xl">
         <SmallNavBar id={id} activeReview={true} />
@@ -41,8 +37,6 @@ const Reviewinfo = () => {
             REVIEW={REVIEW}
             onDelete={deleteMovie}
             mutate={mutate}
-            loading={isLoading}
-            error={error}
           />
         </AsyncData>
       </Box>

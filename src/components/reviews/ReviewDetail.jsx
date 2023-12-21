@@ -9,7 +9,7 @@ import { useCallback } from "react";
 
 const defaultRating = 50;
 
-const ReviewDetail = ({ mid, REVIEW, onDelete, mutate, error, loading }) => {
+const ReviewDetail = ({ mid, REVIEW, onDelete, mutate }) => {
   const handleDelete = useCallback(async () => {
     await onDelete(REVIEW?.reviewId);
     if (mutate) {

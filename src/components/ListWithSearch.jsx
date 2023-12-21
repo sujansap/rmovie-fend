@@ -7,6 +7,7 @@ import List from "./List";
 import { useLanguage } from "../contexts/Language.context";
 
 import translations from "../translation/translation";
+
 const ListWithSearch = ({ MOVIES, linkToReview, loading, error }) => {
   const [text, setText] = useState("");
   const [search, setSearch] = useState("");
@@ -43,7 +44,11 @@ const ListWithSearch = ({ MOVIES, linkToReview, loading, error }) => {
           </Button>
         </Box>
         <AsyncData loading={loading} error={error}>
-          <List MOVIES={filteredMovies} linkToReview={linkToReview} />
+          <List
+            MOVIES={filteredMovies}
+            linkToReview={linkToReview}
+            emptyMessage={translations[language].emptyList}
+          />
         </AsyncData>
       </Box>
     </>

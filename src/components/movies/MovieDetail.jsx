@@ -10,6 +10,7 @@ const MovieDetail = ({
   MOVIE,
   avgRating,
   userId,
+
   onDelete,
   loading,
   error,
@@ -40,6 +41,7 @@ const MovieDetail = ({
           genres={MOVIE?.genreMovies || []}
           text={MOVIE?.synopsis}
         />
+
         <HasAccess>
           {MOVIE?.userId === userId ? (
             <Box display="flex" alignItems="center">

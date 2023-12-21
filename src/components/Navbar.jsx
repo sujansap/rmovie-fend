@@ -6,12 +6,11 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useAuth } from "../contexts/Auth.context";
 import HasAccess from "./HasAcces";
 
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useCallback } from "react";
 
 import { useLanguage } from "../contexts/Language.context";
 
 import translations from "../translation/translation";
-import { useCallback } from "react";
 
 const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();

@@ -99,7 +99,7 @@ export default function Register() {
             <LabelInput
               label={translations[language].password}
               type="password"
-              name={translations[language].password}
+              name="password"
               placeholder={translations[language].password}
               validationRules={validationRules.password}
             />

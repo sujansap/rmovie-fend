@@ -123,7 +123,7 @@ export const ReviewForm = ({ mid, REVIEW, mutate }) => {
       setValue("reviewText", REVIEW?.review);
       setValue("rating", REVIEW?.rating);
     }
-  });
+  }, [REVIEW, setValue]);
 
   return (
     <>

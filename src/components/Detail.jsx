@@ -10,10 +10,13 @@ import {
   Container,
   Heading,
 } from "@chakra-ui/react";
-import { memo } from "react";
+import { memo, useMemo } from "react";
+
 import calculateColor from "./CalculateColor";
-import Movie from "./movies/Movie";
+
 export const Detail = memo(({ title, poster, genres, rating, text }) => {
+  const color = useMemo(() => calculateColor(rating), [rating]);
+
   return (
     <Box
       data-cy="movie_detail"
@@ -24,13 +27,7 @@ export const Detail = memo(({ title, poster, genres, rating, text }) => {
       padding={4}
       margin={5}
     >
-      <Box
-        padding={4}
-        m={3}
-        rounded="md"
-        p="2"
-        maxHeight="100%" // Set maxHeight to 100% to allow it to adjust based on the content
-      >
+      <Box padding={4} m={3} rounded="md" p="2" maxHeight="100%">
         <Image src={poster} alt="Movie Poster" />
         <Heading align="center">{title}</Heading>
         <Box>
@@ -52,7 +49,7 @@ export const Detail = memo(({ title, poster, genres, rating, text }) => {
           width="100%"
         >
           <SliderTrack>
-            <SliderFilledTrack bg={calculateColor(rating)} />
+            <SliderFilledTrack bg={color} />
           </SliderTrack>
         </Slider>
       </Box>
@@ -60,11 +57,8 @@ export const Detail = memo(({ title, poster, genres, rating, text }) => {
       <Container
         data-cy="movie_detail_title"
         padding={4}
-        //maxWidth={{ base: "100%", md: "100%", lg: "50%" }} // Set the maximum width
         borderWidth="1px"
         rounded="md"
-        //boxShadow="xl"
-
         maxWidth="100%"
       >
         <Box maxHeight="100%">
