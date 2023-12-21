@@ -2,27 +2,26 @@
 
 # Examenopdracht Front-end Web Development / Web Services
 
-> Schrap hierboven wat niet past
-
 - Student: Sujan Sapkota
 - Studentennummer: 293706ss
 - E-mailadres: <mailto:sujan.sapkota@student.hogent.be>
 
-## Vereisten
+## Requirements
 
-Ik verwacht dat volgende software reeds geïnstalleerd is:
+I expect following software to be already installed:
 
-- [NodeJS](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
-- [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
-- ...
 
-> Vul eventueel aan
+## Before starting
 
-## Opstarten
+Create a `.env` with the following content and apply to your configuration:
 
-> Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
+`VITE_API_URL=http://localhost:9000/api`
+
+## Start the app
+
+Start the app using `yarn dev`. It runs on http://localhost:5173 by default.
 
 ## Testen
 
-> Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)
+Start the test `yarn test`
