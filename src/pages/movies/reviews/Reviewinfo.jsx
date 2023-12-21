@@ -31,7 +31,7 @@ const Reviewinfo = () => {
 
       <Box margin={5} padding={5} rounded="md" boxShadow="xl">
         <SmallNavBar id={id} activeReview={true} />
-        <AsyncData error={error} loading={isLoading}>
+        <AsyncData error={error || deleteError} loading={isLoading}>
           <ReviewDetail
             mid={id}
             REVIEW={REVIEW}

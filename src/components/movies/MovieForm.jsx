@@ -1,4 +1,4 @@
-import { useState, memo, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -24,7 +24,6 @@ import translations from "../../translation/translation";
 
 import LabelInput from "../LabelInput";
 
-import { useCallback } from "react";
 import LabelTextarea from "../LabelTextarea";
 import Error from "../Error";
 
@@ -49,14 +48,9 @@ const validationRules = {
 
 //For genre
 const InputGenre = ({ selectedGenres, setSelectedGenres, GENRES }) => {
-  const {
-    setError,
-    setValue,
-    getValues,
-    formState: { errors, isSubmitting },
-  } = useFormContext();
+  const { setError, setValue, getValues } = useFormContext();
 
-  const validGenres = GENRES.map((item) => item.genre);
+  const validGenres = useMemo(() => GENRES.map((item) => item.genre), [GENRES]);
 
   const handelGenreEnter = useCallback(
     (event) => {

@@ -1,4 +1,4 @@
-import { Box, Text, Input, Button } from "@chakra-ui/react";
+import { Box, Input, Button } from "@chakra-ui/react";
 
 import { useState, useMemo } from "react";
 import AsyncData from "./AsyncData";

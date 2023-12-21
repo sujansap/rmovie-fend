@@ -1,14 +1,13 @@
 import { ReviewForm } from "../../../components/reviews/ReviewForm";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import { getAll, getById } from "../../../api";
+import { getById } from "../../../api";
 import AsyncData from "../../../components/AsyncData";
 
 export default function ReviewEdit() {
   const { id } = useParams();
   const getFrom = `movies/${id}/review`;
   const { data: REVIEW, isLoading, error } = useSWR(getFrom, getById);
-  //const { review, rating, reviewId: rid } = REVIEW;
 
   return (
     <AsyncData loading={isLoading} error={error}>

@@ -99,7 +99,7 @@ export const ReviewForm = ({ mid, REVIEW, mutate }) => {
 
       await saveReview({
         id: REVIEW?.reviewId,
-        movieId: mid,
+        movieId: Number(mid),
         review,
         rating,
       });

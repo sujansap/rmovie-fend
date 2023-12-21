@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
 
 const LanguageContext = createContext();
 const LANUAGE_KEY = "language";
